@@ -1,0 +1,6 @@
+framework module TBDropboxKit {
+  umbrella header "TBDropboxKit-umbrella.h"
+
+  export *
+  module * { export * }
+}

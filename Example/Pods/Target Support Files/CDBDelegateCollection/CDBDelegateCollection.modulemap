@@ -1,0 +1,6 @@
+framework module CDBDelegateCollection {
+  umbrella header "CDBDelegateCollection-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,6 @@
+framework module TBLogger {
+  umbrella header "TBLogger-umbrella.h"
+
+  export *
+  module * { export * }
+}

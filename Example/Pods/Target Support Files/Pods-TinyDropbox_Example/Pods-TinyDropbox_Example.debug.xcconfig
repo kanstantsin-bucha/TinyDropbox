@@ -1,0 +1,11 @@
+ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
+FRAMEWORK_SEARCH_PATHS = $(inherited) "$PODS_CONFIGURATION_BUILD_DIR/BuchaSwift" "$PODS_CONFIGURATION_BUILD_DIR/CDBDelegateCollection" "$PODS_CONFIGURATION_BUILD_DIR/CDBKit" "$PODS_CONFIGURATION_BUILD_DIR/ObjectiveDropboxOfficial" "$PODS_CONFIGURATION_BUILD_DIR/TBDropboxKit" "$PODS_CONFIGURATION_BUILD_DIR/TBLogger" "$PODS_CONFIGURATION_BUILD_DIR/TinyDropbox"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
+OTHER_CFLAGS = $(inherited) -iquote "$PODS_CONFIGURATION_BUILD_DIR/BuchaSwift/BuchaSwift.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/CDBDelegateCollection/CDBDelegateCollection.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/CDBKit/CDBKit.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/TBDropboxKit/TBDropboxKit.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/TBLogger/TBLogger.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/TinyDropbox/TinyDropbox.framework/Headers"
+OTHER_LDFLAGS = $(inherited) -framework "BuchaSwift" -framework "CDBDelegateCollection" -framework "CDBKit" -framework "ObjectiveDropboxOfficial" -framework "TBDropboxKit" -framework "TBLogger" -framework "TinyDropbox"
+OTHER_SWIFT_FLAGS = $(inherited) "-D" "COCOAPODS"
+PODS_BUILD_DIR = $BUILD_DIR
+PODS_CONFIGURATION_BUILD_DIR = $PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
+PODS_PODFILE_DIR_PATH = ${SRCROOT}/.
+PODS_ROOT = ${SRCROOT}/Pods

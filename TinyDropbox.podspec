@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TinyDropbox'
-  s.version          = '0.1.0'
-  s.summary          = 'A short description of TinyDropbox.'
+  s.version          = '1.0.0'
+  s.summary          = 'Easy to use dropbox sync for swift coders [wrapper on TBDropboxKit]'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,7 +18,8 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+    Easy to use dropbox sync for swift coders [wrapper on TBDropboxKit] Could list files, upload, download and
+    watching server changes
                        DESC
 
   s.homepage         = 'https://github.com/truebucha/TinyDropbox'
@@ -26,17 +27,15 @@ TODO: Add long description of the pod here.
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'truebucha' => 'truebucha@gmail.com' }
   s.source           = { :git => 'https://github.com/truebucha/TinyDropbox.git', :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
+  s.social_media_url = 'https://twitter.com/truebucha'
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.0'
 
-  s.source_files = 'TinyDropbox/Classes/**/*'
-  
-  # s.resource_bundles = {
-  #   'TinyDropbox' => ['TinyDropbox/Assets/*.png']
-  # }
+  s.source_files = 'TinyDropbox/Classes/**/*.{swift}'
+
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.frameworks = 'Foundation'
+  s.dependency 'TBDropboxKit', '~> 1.1'
+  s.dependency 'BuchaSwift', '~> 1.0'
 end

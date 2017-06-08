@@ -1,0 +1,37 @@
+PODS:
+  - BuchaSwift (1.0.1)
+  - CDBDelegateCollection (1.1.1)
+  - CDBKit (1.1.1)
+  - ObjectiveDropboxOfficial (3.1.1)
+  - TBDropboxKit (1.1.4):
+    - CDBDelegateCollection (~> 1.1)
+    - CDBKit (~> 1.1)
+    - ObjectiveDropboxOfficial (~> 3.1)
+    - TBLogger (~> 1.1)
+  - TBLogger (1.1.2):
+    - CDBKit (~> 1.1)
+  - TinyDropbox (1.0.0):
+    - BuchaSwift (~> 1.0)
+    - TBDropboxKit (~> 1.1)
+
+DEPENDENCIES:
+  - BuchaSwift
+  - TBDropboxKit
+  - TinyDropbox (from `../`)
+
+EXTERNAL SOURCES:
+  TinyDropbox:
+    :path: ../
+
+SPEC CHECKSUMS:
+  BuchaSwift: 2e5b7e0289861899979c7d5cafadb2634a7402fb
+  CDBDelegateCollection: d3dc7666965f701bc54ed7eae591de2328a8c706
+  CDBKit: eb073c45d4bffbbad99dc9f2a79effbdab890ea7
+  ObjectiveDropboxOfficial: 9261ed5b067f686910cdca93c5a8d1bc9db08adc
+  TBDropboxKit: 51edd3a4afe4cfff76089edab5b832b2391bc609
+  TBLogger: 228c8ce0f8e6acdea7e85544f1567ead2af98411
+  TinyDropbox: b584e2b6772042a1853826600cdefa8ec55781cc
+
+PODFILE CHECKSUM: 49fc0d9ce251026f6f874f16cff8d1ef9a425a8d
+
+COCOAPODS: 1.2.1

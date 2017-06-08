@@ -2,11 +2,9 @@ use_frameworks!
 
 target 'TinyDropbox_Example' do
   pod 'TinyDropbox', :path => '../'
+  pod 'TBDropboxKit'
+  pod 'BuchaSwift'
+# pod 'TBDropboxKit', :path=> '~/repos/,github/TBDropboxKit'
+# pod 'TBLogger', :path=> '~/repos/,github/TBLogger'
 
-  target 'TinyDropbox_Tests' do
-    inherit! :search_paths
-
-    pod 'Quick', '~> 1.0.0'
-  pod 'Nimble', '~> 5.1.1'
-  end
 end

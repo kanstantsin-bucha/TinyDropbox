@@ -1,0 +1,6 @@
+framework module TinyDropbox {
+  umbrella header "TinyDropbox-umbrella.h"
+
+  export *
+  module * { export * }
+}
