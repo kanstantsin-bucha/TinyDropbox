@@ -9,6 +9,14 @@
 
 Easy to use dropbox sync for swift coders [wrapper on TBDropboxKit]
 
+Please use issues to propose additional functions to be implemented!
+
+
+## Versions
+
+  1.0.1
+    add state property
+
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
@@ -17,8 +25,8 @@ To receive server files changes set watchdogEnabled to true
 
 ### patch info.plist file of the target
 
-    ``
-    <key>LSApplicationQueriesSchemes</key>
+    ```
+  <key>LSApplicationQueriesSchemes</key>
     <array>
 		<string>dbapi-8-emm</string>
 		<string>dbapi-2</string>
@@ -34,29 +42,29 @@ To receive server files changes set watchdogEnabled to true
 			<string></string>
 		</dict>
 	</array>
-    ``
+    ```
 
 ### initialize in app delegate
     
     add properties to AppDelegate
     
-    ``
+    ```
     let dropboxStateChangedNotification = "dropboxStateChangedNotification"
     let dropboxStateNotificationKey = "dropboxStateNotificationKey"
-    let dropbox = TinyDropbox.shared``
+    let dropbox = TinyDropbox.shared```
     
     add AppDelegate as dropbox delegate
     
-    `` class AppDelegate: UIResponder, UIApplicationDelegate, TinyDropboxDelegate {``
+    ``` class AppDelegate: UIResponder, UIApplicationDelegate, TinyDropboxDelegate {```
     
-    ``
+    ```
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         dropbox.delegate = self
         // Override point for customization after application launch.
         return true
-    }``
+    }```
     
-    ``
+    ```
     // MARK: TinyDropboxDelegate
 
     func dropbox(_ dropbox: TinyDropbox, didChangeStateTo state: TinyDropboxState) {
@@ -67,19 +75,19 @@ To receive server files changes set watchdogEnabled to true
     func dropbox(_ dropbox: TinyDropbox, didReceiveIncomingChanges changes: Array<DropChange>) {
 
     }
-    ``
+    ```
 ### handle dropbox auth redirect in an AppDelegete
     
-    ``
+    ```
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         let result = dropbox.handleAuthorisationRedirectURL(url)
         return result
     }
-    ``
+    ```
 
 ### subscribe to notifications
 
-    ``
+    ```
      private func subscribeToNotifications () {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         NotificationCenter.default.addObserver(self,
@@ -98,11 +106,11 @@ To receive server files changes set watchdogEnabled to true
                 download(using: appDelegate.dropbox)
            }
         }
-    }``
+    }```
     
 ### list books folder and download first one if no local copy present
     
-    ``
+    ```
     private func download(using dropbox: TinyDropbox) {
     dropbox.append(path: "/books")
         dropbox.listDirectory { (list: DropboxFilesList, error :DropboxError?) in
@@ -130,7 +138,7 @@ To receive server files changes set watchdogEnabled to true
                 }
             })
         }
-    }``
+    }```
 
 ## Requirements
 

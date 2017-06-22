@@ -55,6 +55,18 @@ open class TinyDropbox : NSObject, TBDropboxClientDelegate {
 
     static public let shared = TinyDropbox()
     public let client: TBDropboxClient = TBDropboxClient.sharedInstance()
+  
+    public var state: TinyDropboxState {
+      get {
+        let state = client.connection?.state
+        
+        guard state != nil
+         else { return .undefined }
+        
+        let result = stateConverted(from: state!)
+        return result;
+      }
+    }
     
     public var delegate : TinyDropboxDelegate?
     public var path : String? = nil
