@@ -26,10 +26,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Instance fields
 
-/// If the file is deleted.
+/// If the file identified by the latest revision in the response is either
+/// deleted or moved.
 @property (nonatomic, readonly) NSNumber *isDeleted;
 
-/// The revisions for the file. Only non-delete revisions will show up here.
+/// The time of deletion if the file was deleted.
+@property (nonatomic, readonly, nullable) NSDate *serverDeleted;
+
+/// The revisions for the file. Only revisions that are not deleted will show up
+/// here.
 @property (nonatomic, readonly) NSArray<DBFILESFileMetadata *> *entries;
 
 #pragma mark - Constructors
@@ -37,9 +42,26 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param isDeleted If the file is deleted.
-/// @param entries The revisions for the file. Only non-delete revisions will
-/// show up here.
+/// @param isDeleted If the file identified by the latest revision in the
+/// response is either deleted or moved.
+/// @param entries The revisions for the file. Only revisions that are not
+/// deleted will show up here.
+/// @param serverDeleted The time of deletion if the file was deleted.
+///
+/// @return An initialized instance.
+///
+- (instancetype)initWithIsDeleted:(NSNumber *)isDeleted
+                          entries:(NSArray<DBFILESFileMetadata *> *)entries
+                    serverDeleted:(nullable NSDate *)serverDeleted;
+
+///
+/// Convenience constructor (exposes only non-nullable instance variables with
+/// no default value).
+///
+/// @param isDeleted If the file identified by the latest revision in the
+/// response is either deleted or moved.
+/// @param entries The revisions for the file. Only revisions that are not
+/// deleted will show up here.
 ///
 /// @return An initialized instance.
 ///
@@ -64,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBFILESListRevisionsResult` API object.
 ///
-+ (NSDictionary *)serialize:(DBFILESListRevisionsResult *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBFILESListRevisionsResult *)instance;
 
 ///
 /// Deserializes `DBFILESListRevisionsResult` instances.
@@ -74,7 +96,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An instantiation of the `DBFILESListRevisionsResult` object.
 ///
-+ (DBFILESListRevisionsResult *)deserialize:(NSDictionary *)dict;
++ (DBFILESListRevisionsResult *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

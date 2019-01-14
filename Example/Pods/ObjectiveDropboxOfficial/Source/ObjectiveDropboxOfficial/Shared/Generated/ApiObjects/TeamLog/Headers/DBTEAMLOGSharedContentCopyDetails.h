@@ -8,7 +8,9 @@
 
 #import "DBSerializableProtocol.h"
 
+@class DBSHARINGAccessLevel;
 @class DBTEAMLOGSharedContentCopyDetails;
+@class DBTEAMLOGUserLogInfo;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `SharedContentCopyDetails` struct.
 ///
-/// Copied the shared file or folder to own Dropbox.
+/// Copied shared file/folder to own Dropbox.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -30,17 +32,14 @@ NS_ASSUME_NONNULL_BEGIN
 /// Shared content link.
 @property (nonatomic, readonly, copy) NSString *sharedContentLink;
 
-/// Sharing permission. Might be missing due to historical data gap.
-@property (nonatomic, readonly, copy, nullable) NSString *sharingPermission;
+/// The shared content owner.
+@property (nonatomic, readonly, nullable) DBTEAMLOGUserLogInfo *sharedContentOwner;
 
-/// Source asset index.
-@property (nonatomic, readonly) NSNumber *srcIndex;
+/// Shared content access level.
+@property (nonatomic, readonly) DBSHARINGAccessLevel *sharedContentAccessLevel;
 
-/// Destination asset index.
-@property (nonatomic, readonly) NSNumber *destIndex;
-
-/// Target asset index.
-@property (nonatomic, readonly) NSNumber *targetIndex;
+/// The path where the member saved the content.
+@property (nonatomic, readonly, copy) NSString *destinationPath;
 
 #pragma mark - Constructors
 
@@ -48,35 +47,30 @@ NS_ASSUME_NONNULL_BEGIN
 /// Full constructor for the struct (exposes all instance variables).
 ///
 /// @param sharedContentLink Shared content link.
-/// @param srcIndex Source asset index.
-/// @param destIndex Destination asset index.
-/// @param targetIndex Target asset index.
-/// @param sharingPermission Sharing permission. Might be missing due to
-/// historical data gap.
+/// @param sharedContentAccessLevel Shared content access level.
+/// @param destinationPath The path where the member saved the content.
+/// @param sharedContentOwner The shared content owner.
 ///
 /// @return An initialized instance.
 ///
 - (instancetype)initWithSharedContentLink:(NSString *)sharedContentLink
-                                 srcIndex:(NSNumber *)srcIndex
-                                destIndex:(NSNumber *)destIndex
-                              targetIndex:(NSNumber *)targetIndex
-                        sharingPermission:(nullable NSString *)sharingPermission;
+                 sharedContentAccessLevel:(DBSHARINGAccessLevel *)sharedContentAccessLevel
+                          destinationPath:(NSString *)destinationPath
+                       sharedContentOwner:(nullable DBTEAMLOGUserLogInfo *)sharedContentOwner;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
 /// no default value).
 ///
 /// @param sharedContentLink Shared content link.
-/// @param srcIndex Source asset index.
-/// @param destIndex Destination asset index.
-/// @param targetIndex Target asset index.
+/// @param sharedContentAccessLevel Shared content access level.
+/// @param destinationPath The path where the member saved the content.
 ///
 /// @return An initialized instance.
 ///
 - (instancetype)initWithSharedContentLink:(NSString *)sharedContentLink
-                                 srcIndex:(NSNumber *)srcIndex
-                                destIndex:(NSNumber *)destIndex
-                              targetIndex:(NSNumber *)targetIndex;
+                 sharedContentAccessLevel:(DBSHARINGAccessLevel *)sharedContentAccessLevel
+                          destinationPath:(NSString *)destinationPath;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -98,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGSharedContentCopyDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGSharedContentCopyDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGSharedContentCopyDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGSharedContentCopyDetails` instances.
@@ -108,7 +102,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An instantiation of the `DBTEAMLOGSharedContentCopyDetails` object.
 ///
-+ (DBTEAMLOGSharedContentCopyDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGSharedContentCopyDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

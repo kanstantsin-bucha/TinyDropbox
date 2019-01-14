@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TinyDropboxDelegate {
     let dropbox = TinyDropbox.shared
 
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         dropbox.delegate = self
         // Override point for customization after application launch.
         return true
@@ -47,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TinyDropboxDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         let result = dropbox.handleAuthorisationRedirectURL(url)
         return result
     }
@@ -58,7 +58,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TinyDropboxDelegate {
 
     func dropbox(_ dropbox: TinyDropbox, didChangeStateTo state: TinyDropboxState) {
         let userInfo = [dropboxStateNotificationKey: state]
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: dropboxStateChangedNotification), object: self, userInfo: userInfo)
+        NotificationCenter.default.post(
+            name: Notification.Name(rawValue: dropboxStateChangedNotification),
+            object: self,
+            userInfo: userInfo)
     }
     
     func dropbox(_ dropbox: TinyDropbox, didReceiveIncomingChanges changes: Array<DropChange>) {

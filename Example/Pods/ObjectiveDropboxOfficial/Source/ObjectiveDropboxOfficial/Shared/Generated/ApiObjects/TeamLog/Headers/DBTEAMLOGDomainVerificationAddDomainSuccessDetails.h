@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `DomainVerificationAddDomainSuccessDetails` struct.
 ///
-/// Verified a domain belonging to the team.
+/// Verified team domain.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -30,7 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// Domain names.
 @property (nonatomic, readonly) NSArray<NSString *> *domainNames;
 
-/// Domain name verification method.
+/// Domain name verification method. Might be missing due to historical data
+/// gap.
 @property (nonatomic, readonly, copy, nullable) NSString *verificationMethod;
 
 #pragma mark - Constructors
@@ -39,7 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// Full constructor for the struct (exposes all instance variables).
 ///
 /// @param domainNames Domain names.
-/// @param verificationMethod Domain name verification method.
+/// @param verificationMethod Domain name verification method. Might be missing
+/// due to historical data gap.
 ///
 /// @return An initialized instance.
 ///
@@ -77,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGDomainVerificationAddDomainSuccessDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGDomainVerificationAddDomainSuccessDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGDomainVerificationAddDomainSuccessDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGDomainVerificationAddDomainSuccessDetails` instances.
@@ -88,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the
 /// `DBTEAMLOGDomainVerificationAddDomainSuccessDetails` object.
 ///
-+ (DBTEAMLOGDomainVerificationAddDomainSuccessDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGDomainVerificationAddDomainSuccessDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

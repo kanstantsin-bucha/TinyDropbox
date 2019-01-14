@@ -9,7 +9,6 @@
 #import "DBSerializableProtocol.h"
 
 @class DBTEAMLOGGroupChangeExternalIdDetails;
-@class DBTEAMLOGGroupLogInfo;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `GroupChangeExternalIdDetails` struct.
 ///
-/// Changed the external ID for group.
+/// Changed external ID for group.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -27,9 +26,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DBTEAMLOGGroupChangeExternalIdDetails : NSObject <DBSerializable, NSCopying>
 
 #pragma mark - Instance fields
-
-/// Group details.
-@property (nonatomic, readonly) DBTEAMLOGGroupLogInfo *groupInfo;
 
 /// Current external id.
 @property (nonatomic, readonly, copy) NSString *dNewValue;
@@ -42,15 +38,12 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param groupInfo Group details.
 /// @param dNewValue Current external id.
 /// @param previousValue Old external id.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithGroupInfo:(DBTEAMLOGGroupLogInfo *)groupInfo
-                        dNewValue:(NSString *)dNewValue
-                    previousValue:(NSString *)previousValue;
+- (instancetype)initWithDNewValue:(NSString *)dNewValue previousValue:(NSString *)previousValue;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -72,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGGroupChangeExternalIdDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGGroupChangeExternalIdDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGGroupChangeExternalIdDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGGroupChangeExternalIdDetails` instances.
@@ -83,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the `DBTEAMLOGGroupChangeExternalIdDetails`
 /// object.
 ///
-+ (DBTEAMLOGGroupChangeExternalIdDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGGroupChangeExternalIdDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

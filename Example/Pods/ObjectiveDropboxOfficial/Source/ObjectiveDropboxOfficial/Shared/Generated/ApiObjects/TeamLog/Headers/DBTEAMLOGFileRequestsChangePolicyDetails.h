@@ -8,8 +8,8 @@
 
 #import "DBSerializableProtocol.h"
 
-@class DBTEAMLOGEnableDisableChangePolicy;
 @class DBTEAMLOGFileRequestsChangePolicyDetails;
+@class DBTEAMLOGFileRequestsPolicy;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `FileRequestsChangePolicyDetails` struct.
 ///
-/// Enabled or disabled file requests.
+/// Enabled/disabled file requests.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -29,10 +29,10 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Instance fields
 
 /// New file requests policy.
-@property (nonatomic, readonly) DBTEAMLOGEnableDisableChangePolicy *dNewValue;
+@property (nonatomic, readonly) DBTEAMLOGFileRequestsPolicy *dNewValue;
 
 /// Previous file requests policy. Might be missing due to historical data gap.
-@property (nonatomic, readonly, nullable) DBTEAMLOGEnableDisableChangePolicy *previousValue;
+@property (nonatomic, readonly, nullable) DBTEAMLOGFileRequestsPolicy *previousValue;
 
 #pragma mark - Constructors
 
@@ -45,8 +45,8 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithDNewValue:(DBTEAMLOGEnableDisableChangePolicy *)dNewValue
-                    previousValue:(nullable DBTEAMLOGEnableDisableChangePolicy *)previousValue;
+- (instancetype)initWithDNewValue:(DBTEAMLOGFileRequestsPolicy *)dNewValue
+                    previousValue:(nullable DBTEAMLOGFileRequestsPolicy *)previousValue;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithDNewValue:(DBTEAMLOGEnableDisableChangePolicy *)dNewValue;
+- (instancetype)initWithDNewValue:(DBTEAMLOGFileRequestsPolicy *)dNewValue;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGFileRequestsChangePolicyDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGFileRequestsChangePolicyDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGFileRequestsChangePolicyDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGFileRequestsChangePolicyDetails` instances.
@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the `DBTEAMLOGFileRequestsChangePolicyDetails`
 /// object.
 ///
-+ (DBTEAMLOGFileRequestsChangePolicyDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGFileRequestsChangePolicyDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

@@ -8,8 +8,8 @@
 
 #import "DBSerializableProtocol.h"
 
-@class DBTEAMLOGEnableDisableChangePolicy;
 @class DBTEAMLOGNetworkControlChangePolicyDetails;
+@class DBTEAMLOGNetworkControlPolicy;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `NetworkControlChangePolicyDetails` struct.
 ///
-/// Enabled or disabled network control.
+/// Enabled/disabled network control.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -29,11 +29,11 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Instance fields
 
 /// New network control policy.
-@property (nonatomic, readonly) DBTEAMLOGEnableDisableChangePolicy *dNewValue;
+@property (nonatomic, readonly) DBTEAMLOGNetworkControlPolicy *dNewValue;
 
 /// Previous network control policy. Might be missing due to historical data
 /// gap.
-@property (nonatomic, readonly, nullable) DBTEAMLOGEnableDisableChangePolicy *previousValue;
+@property (nonatomic, readonly, nullable) DBTEAMLOGNetworkControlPolicy *previousValue;
 
 #pragma mark - Constructors
 
@@ -46,8 +46,8 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithDNewValue:(DBTEAMLOGEnableDisableChangePolicy *)dNewValue
-                    previousValue:(nullable DBTEAMLOGEnableDisableChangePolicy *)previousValue;
+- (instancetype)initWithDNewValue:(DBTEAMLOGNetworkControlPolicy *)dNewValue
+                    previousValue:(nullable DBTEAMLOGNetworkControlPolicy *)previousValue;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithDNewValue:(DBTEAMLOGEnableDisableChangePolicy *)dNewValue;
+- (instancetype)initWithDNewValue:(DBTEAMLOGNetworkControlPolicy *)dNewValue;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -79,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGNetworkControlChangePolicyDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGNetworkControlChangePolicyDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGNetworkControlChangePolicyDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGNetworkControlChangePolicyDetails` instances.
@@ -90,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the `DBTEAMLOGNetworkControlChangePolicyDetails`
 /// object.
 ///
-+ (DBTEAMLOGNetworkControlChangePolicyDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGNetworkControlChangePolicyDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

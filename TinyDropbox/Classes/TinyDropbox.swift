@@ -26,19 +26,12 @@ public enum TinyDropboxState : Int {
 
 private func stateConverted(from tbConnectionState: TBDropboxConnectionState) -> TinyDropboxState {
     switch tbConnectionState {
-    
     case .undefined: return .undefined
-        
     case .disconnected: return .disconnected
-        
     case .authorization: return .authorization
-        
     case .connected: return .connected
-    
     case .reconnected: return .reconnected
-        
     case .paused: return .paused
-    
     }
 }
 
@@ -53,7 +46,15 @@ public protocol TinyDropboxDelegate {
 
 open class TinyDropbox : NSObject, TBDropboxClientDelegate {
 
-    static public let shared = TinyDropbox()
+    static public let shared: TinyDropbox = {
+        let result = TinyDropbox()
+        result.client.add(result)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
+            result.client.initiate(withConnectionDesired: true)
+        })
+        return result
+    }()
+    
     public let client: TBDropboxClient = TBDropboxClient.sharedInstance()
   
     public var state: TinyDropboxState {
@@ -75,12 +76,6 @@ open class TinyDropbox : NSObject, TBDropboxClientDelegate {
             client.watchdogEnabled = watchdogEnabled
         }
     }
-    
-    override init() {
-        super.init();
-        client.initiate(withConnectionDesired: true)
-        client.add(self);
-    }
 
 // MARK: - interface -
 
@@ -99,7 +94,7 @@ open class TinyDropbox : NSObject, TBDropboxClientDelegate {
         return result
     }
     
-    public func listDirectory(completion: @escaping DataCompletion<DropboxFilesList, DropboxError>) {
+    public func listDirectory(completion: @escaping DataErrorCompletion<DropboxFilesList, DropboxError>) {
         listDirectory(atPath: path, completion: completion);
     }
     
@@ -133,13 +128,17 @@ open class TinyDropbox : NSObject, TBDropboxClientDelegate {
         let shouldRemoveSlash = fullPath.hasSuffix("/") == false
         
         if (shouldRemoveSlash) {
-            let slashIndex = fullPath.characters.index(before: fullPath.characters.endIndex)
+            let slashIndex = fullPath.index(before: fullPath.endIndex)
             fullPath.remove(at: slashIndex)
         }
         
-        let foundRange = fullPath.range(of: "/", options: String.CompareOptions.backwards, range: nil, locale: nil)
+        let foundRange = fullPath.range(
+            of: "/",
+            options: String.CompareOptions.backwards,
+            range: nil,
+            locale: nil)
         if let range = foundRange {
-            path = fullPath.substring(to: range.lowerBound)
+            path = String(fullPath[...range.lowerBound])
         } else {
             path = nil
         }
@@ -200,6 +199,7 @@ open class TinyDropbox : NSObject, TBDropboxClientDelegate {
 // MARK: TBDropboxClientDelegate
     
     public func client(_ client: TBDropboxClient, didReceiveIncomingChanges changes: [TBDropboxChange]?) {
+        print("Tiny Dropbox has changes: \(String(describing: changes))")
         guard delegate != nil else {
             return
         }
@@ -218,12 +218,13 @@ open class TinyDropbox : NSObject, TBDropboxClientDelegate {
     
     public func dropboxConnection(_ connection: TBDropboxConnection, didChangeStateTo state: TBDropboxConnectionState) {
         let convertedState = stateConverted(from: state)
+        print("Tiny Dropbox has new state: \(convertedState)")
         delegate?.dropbox(self, didChangeStateTo: convertedState)
     }
 
 // MARK: - implementation -
 
-    private func listDirectory(atPath path: String?, completion: @escaping DataCompletion<DropboxFilesList, DropboxError>) {
+    private func listDirectory(atPath path: String?, completion: @escaping DataErrorCompletion<DropboxFilesList, DropboxError>) {
     
         let rootEntry = TBDropboxEntryFactory.folderEntry(usingDropboxPath: path);
         

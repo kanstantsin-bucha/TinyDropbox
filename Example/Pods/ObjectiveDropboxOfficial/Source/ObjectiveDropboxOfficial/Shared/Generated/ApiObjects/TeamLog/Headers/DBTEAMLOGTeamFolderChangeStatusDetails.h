@@ -9,7 +9,7 @@
 #import "DBSerializableProtocol.h"
 
 @class DBTEAMLOGTeamFolderChangeStatusDetails;
-@class DBTEAMLOGTeamFolderStatus;
+@class DBTEAMTeamFolderStatus;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `TeamFolderChangeStatusDetails` struct.
 ///
-/// Changed the archival status of a team folder.
+/// Changed archival status of team folder.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -29,34 +29,34 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Instance fields
 
 /// New team folder status.
-@property (nonatomic, readonly) DBTEAMLOGTeamFolderStatus *dNewStatus;
+@property (nonatomic, readonly) DBTEAMTeamFolderStatus *dNewValue;
 
 /// Previous team folder status. Might be missing due to historical data gap.
-@property (nonatomic, readonly, nullable) DBTEAMLOGTeamFolderStatus *previousStatus;
+@property (nonatomic, readonly, nullable) DBTEAMTeamFolderStatus *previousValue;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param dNewStatus New team folder status.
-/// @param previousStatus Previous team folder status. Might be missing due to
+/// @param dNewValue New team folder status.
+/// @param previousValue Previous team folder status. Might be missing due to
 /// historical data gap.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithDNewStatus:(DBTEAMLOGTeamFolderStatus *)dNewStatus
-                    previousStatus:(nullable DBTEAMLOGTeamFolderStatus *)previousStatus;
+- (instancetype)initWithDNewValue:(DBTEAMTeamFolderStatus *)dNewValue
+                    previousValue:(nullable DBTEAMTeamFolderStatus *)previousValue;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
 /// no default value).
 ///
-/// @param dNewStatus New team folder status.
+/// @param dNewValue New team folder status.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithDNewStatus:(DBTEAMLOGTeamFolderStatus *)dNewStatus;
+- (instancetype)initWithDNewValue:(DBTEAMTeamFolderStatus *)dNewValue;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGTeamFolderChangeStatusDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGTeamFolderChangeStatusDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGTeamFolderChangeStatusDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGTeamFolderChangeStatusDetails` instances.
@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the `DBTEAMLOGTeamFolderChangeStatusDetails`
 /// object.
 ///
-+ (DBTEAMLOGTeamFolderChangeStatusDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGTeamFolderChangeStatusDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

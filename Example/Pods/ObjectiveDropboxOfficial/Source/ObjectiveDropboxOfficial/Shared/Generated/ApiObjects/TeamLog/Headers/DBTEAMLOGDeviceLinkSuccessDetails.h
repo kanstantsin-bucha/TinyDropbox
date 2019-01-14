@@ -9,7 +9,7 @@
 #import "DBSerializableProtocol.h"
 
 @class DBTEAMLOGDeviceLinkSuccessDetails;
-@class DBTEAMLOGDeviceLogInfo;
+@class DBTEAMLOGDeviceSessionLogInfo;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `DeviceLinkSuccessDetails` struct.
 ///
-/// Linked a device.
+/// Linked device.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -28,34 +28,28 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Instance fields
 
-/// Device information.
-@property (nonatomic, readonly) DBTEAMLOGDeviceLogInfo *deviceInfo;
-
-/// Linking app version. Might be missing due to historical data gap.
-@property (nonatomic, readonly, copy, nullable) NSString *appVersion;
+/// Device's session logged information.
+@property (nonatomic, readonly, nullable) DBTEAMLOGDeviceSessionLogInfo *deviceSessionInfo;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param deviceInfo Device information.
-/// @param appVersion Linking app version. Might be missing due to historical
-/// data gap.
+/// @param deviceSessionInfo Device's session logged information.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithDeviceInfo:(DBTEAMLOGDeviceLogInfo *)deviceInfo appVersion:(nullable NSString *)appVersion;
+- (instancetype)initWithDeviceSessionInfo:(nullable DBTEAMLOGDeviceSessionLogInfo *)deviceSessionInfo;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
 /// no default value).
 ///
-/// @param deviceInfo Device information.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithDeviceInfo:(DBTEAMLOGDeviceLogInfo *)deviceInfo;
+- (instancetype)initDefault;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -77,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGDeviceLinkSuccessDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGDeviceLinkSuccessDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGDeviceLinkSuccessDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGDeviceLinkSuccessDetails` instances.
@@ -87,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An instantiation of the `DBTEAMLOGDeviceLinkSuccessDetails` object.
 ///
-+ (DBTEAMLOGDeviceLinkSuccessDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGDeviceLinkSuccessDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

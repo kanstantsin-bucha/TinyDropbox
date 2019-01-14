@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `SsoChangeSamlIdentityModeDetails` struct.
 ///
-/// Changed the SAML identity mode for SSO.
+/// Changed SAML identity mode for SSO.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -28,23 +28,22 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Instance fields
 
 /// Previous single sign-on identity mode.
-@property (nonatomic, readonly) NSNumber *previousSamlIdentityMode;
+@property (nonatomic, readonly) NSNumber *previousValue;
 
 /// New single sign-on identity mode.
-@property (nonatomic, readonly) NSNumber *dNewSamlIdentityMode;
+@property (nonatomic, readonly) NSNumber *dNewValue;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param previousSamlIdentityMode Previous single sign-on identity mode.
-/// @param dNewSamlIdentityMode New single sign-on identity mode.
+/// @param previousValue Previous single sign-on identity mode.
+/// @param dNewValue New single sign-on identity mode.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithPreviousSamlIdentityMode:(NSNumber *)previousSamlIdentityMode
-                            dNewSamlIdentityMode:(NSNumber *)dNewSamlIdentityMode;
+- (instancetype)initWithPreviousValue:(NSNumber *)previousValue dNewValue:(NSNumber *)dNewValue;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -66,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGSsoChangeSamlIdentityModeDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGSsoChangeSamlIdentityModeDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGSsoChangeSamlIdentityModeDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGSsoChangeSamlIdentityModeDetails` instances.
@@ -77,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the `DBTEAMLOGSsoChangeSamlIdentityModeDetails`
 /// object.
 ///
-+ (DBTEAMLOGSsoChangeSamlIdentityModeDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGSsoChangeSamlIdentityModeDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `DomainVerificationAddDomainFailDetails` struct.
 ///
-/// Failed to verify a domain belonging to the team.
+/// Failed to verify team domain.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -27,10 +27,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Instance fields
 
-/// Domain names.
-@property (nonatomic, readonly) NSArray<NSString *> *domainNames;
+/// Domain name.
+@property (nonatomic, readonly, copy) NSString *domainName;
 
-/// Domain name verification method.
+/// Domain name verification method. Might be missing due to historical data
+/// gap.
 @property (nonatomic, readonly, copy, nullable) NSString *verificationMethod;
 
 #pragma mark - Constructors
@@ -38,23 +39,23 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param domainNames Domain names.
-/// @param verificationMethod Domain name verification method.
+/// @param domainName Domain name.
+/// @param verificationMethod Domain name verification method. Might be missing
+/// due to historical data gap.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithDomainNames:(NSArray<NSString *> *)domainNames
-                 verificationMethod:(nullable NSString *)verificationMethod;
+- (instancetype)initWithDomainName:(NSString *)domainName verificationMethod:(nullable NSString *)verificationMethod;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
 /// no default value).
 ///
-/// @param domainNames Domain names.
+/// @param domainName Domain name.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithDomainNames:(NSArray<NSString *> *)domainNames;
+- (instancetype)initWithDomainName:(NSString *)domainName;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -77,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGDomainVerificationAddDomainFailDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGDomainVerificationAddDomainFailDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGDomainVerificationAddDomainFailDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGDomainVerificationAddDomainFailDetails` instances.
@@ -88,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the
 /// `DBTEAMLOGDomainVerificationAddDomainFailDetails` object.
 ///
-+ (DBTEAMLOGDomainVerificationAddDomainFailDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGDomainVerificationAddDomainFailDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

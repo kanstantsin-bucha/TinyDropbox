@@ -53,7 +53,7 @@ static DBMobileSharedApplication *s_mobileSharedApplication;
 
 - (void)presentErrorMessageWithHandlers:(NSString *)message
                                   title:(NSString *)title
-                         buttonHandlers:(NSDictionary<NSString *, void (^)()> *)buttonHandlers {
+                         buttonHandlers:(NSDictionary<NSString *, void (^)(void)> *)buttonHandlers {
   UIAlertController *alertController =
       [UIAlertController alertControllerWithTitle:title
                                           message:message
@@ -115,6 +115,7 @@ static DBMobileSharedApplication *s_mobileSharedApplication;
         [_controller.presentedViewController isKindOfClass:[DBMobileSafariViewController class]]) {
       [_controller dismissViewControllerAnimated:YES completion:nil];
     }
+    _controller = nil;
   }
 }
 
@@ -147,6 +148,7 @@ static DBMobileSharedApplication *s_mobileSharedApplication;
 - (void)safariViewControllerDidFinish:(SFSafariViewController *)controller {
 #pragma unused(controller)
   _cancelHandler();
+  [[DBMobileSharedApplication mobileSharedApplication] dismissAuthController];
 }
 
 @end

@@ -9,6 +9,7 @@
 #import "DBSerializableProtocol.h"
 
 @class DBTEAMLOGFileMoveDetails;
+@class DBTEAMLOGRelocateAssetReferencesLogInfo;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,23 +28,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Instance fields
 
-/// Source asset index.
-@property (nonatomic, readonly) NSNumber *srcIndex;
-
-/// Destination asset index.
-@property (nonatomic, readonly) NSNumber *destIndex;
+/// Relocate action details.
+@property (nonatomic, readonly) NSArray<DBTEAMLOGRelocateAssetReferencesLogInfo *> *relocateActionDetails;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param srcIndex Source asset index.
-/// @param destIndex Destination asset index.
+/// @param relocateActionDetails Relocate action details.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithSrcIndex:(NSNumber *)srcIndex destIndex:(NSNumber *)destIndex;
+- (instancetype)initWithRelocateActionDetails:
+    (NSArray<DBTEAMLOGRelocateAssetReferencesLogInfo *> *)relocateActionDetails;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -64,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGFileMoveDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGFileMoveDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGFileMoveDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGFileMoveDetails` instances.
@@ -74,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An instantiation of the `DBTEAMLOGFileMoveDetails` object.
 ///
-+ (DBTEAMLOGFileMoveDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGFileMoveDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

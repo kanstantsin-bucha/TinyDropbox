@@ -10,7 +10,6 @@
 
 @class DBTEAMLOGGroupCreateDetails;
 @class DBTEAMLOGGroupJoinPolicy;
-@class DBTEAMLOGGroupLogInfo;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `GroupCreateDetails` struct.
 ///
-/// Created a group.
+/// Created group.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -29,41 +28,34 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Instance fields
 
-/// Group details.
-@property (nonatomic, readonly) DBTEAMLOGGroupLogInfo *groupInfo;
-
-/// Is admin managed group. Might be missing due to historical data gap.
-@property (nonatomic, readonly, nullable) NSNumber *isAdminManaged;
+/// Is company managed group. Might be missing due to historical data gap.
+@property (nonatomic, readonly, nullable) NSNumber *isCompanyManaged;
 
 /// Group join policy.
-@property (nonatomic, readonly) DBTEAMLOGGroupJoinPolicy *joinPolicy;
+@property (nonatomic, readonly, nullable) DBTEAMLOGGroupJoinPolicy *joinPolicy;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param groupInfo Group details.
-/// @param joinPolicy Group join policy.
-/// @param isAdminManaged Is admin managed group. Might be missing due to
+/// @param isCompanyManaged Is company managed group. Might be missing due to
 /// historical data gap.
+/// @param joinPolicy Group join policy.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithGroupInfo:(DBTEAMLOGGroupLogInfo *)groupInfo
-                       joinPolicy:(DBTEAMLOGGroupJoinPolicy *)joinPolicy
-                   isAdminManaged:(nullable NSNumber *)isAdminManaged;
+- (instancetype)initWithIsCompanyManaged:(nullable NSNumber *)isCompanyManaged
+                              joinPolicy:(nullable DBTEAMLOGGroupJoinPolicy *)joinPolicy;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
 /// no default value).
 ///
-/// @param groupInfo Group details.
-/// @param joinPolicy Group join policy.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithGroupInfo:(DBTEAMLOGGroupLogInfo *)groupInfo joinPolicy:(DBTEAMLOGGroupJoinPolicy *)joinPolicy;
+- (instancetype)initDefault;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -84,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGGroupCreateDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGGroupCreateDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGGroupCreateDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGGroupCreateDetails` instances.
@@ -94,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An instantiation of the `DBTEAMLOGGroupCreateDetails` object.
 ///
-+ (DBTEAMLOGGroupCreateDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGGroupCreateDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

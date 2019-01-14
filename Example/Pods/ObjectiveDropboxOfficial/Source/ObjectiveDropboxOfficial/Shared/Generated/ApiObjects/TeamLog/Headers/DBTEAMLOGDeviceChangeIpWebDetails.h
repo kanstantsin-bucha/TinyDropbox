@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `DeviceChangeIpWebDetails` struct.
 ///
-/// IP address associated with active Web session changed.
+/// Changed IP address associated with active web session.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGDeviceChangeIpWebDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGDeviceChangeIpWebDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGDeviceChangeIpWebDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGDeviceChangeIpWebDetails` instances.
@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An instantiation of the `DBTEAMLOGDeviceChangeIpWebDetails` object.
 ///
-+ (DBTEAMLOGDeviceChangeIpWebDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGDeviceChangeIpWebDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

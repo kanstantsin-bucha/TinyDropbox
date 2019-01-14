@@ -8,7 +8,7 @@
 
 #import "DBSerializableProtocol.h"
 
-@class DBTEAMLOGEnableDisableChangePolicy;
+@class DBTEAMLOGContentPermanentDeletePolicy;
 @class DBTEAMLOGPermanentDeleteChangePolicyDetails;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -18,8 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `PermanentDeleteChangePolicyDetails` struct.
 ///
-/// Enabled or disabled the ability of team members to permanently delete
-/// content.
+/// Enabled/disabled ability of team members to permanently delete content.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -30,11 +29,11 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Instance fields
 
 /// New permanent delete content policy.
-@property (nonatomic, readonly) DBTEAMLOGEnableDisableChangePolicy *dNewValue;
+@property (nonatomic, readonly) DBTEAMLOGContentPermanentDeletePolicy *dNewValue;
 
 /// Previous permanent delete content policy. Might be missing due to historical
 /// data gap.
-@property (nonatomic, readonly, nullable) DBTEAMLOGEnableDisableChangePolicy *previousValue;
+@property (nonatomic, readonly, nullable) DBTEAMLOGContentPermanentDeletePolicy *previousValue;
 
 #pragma mark - Constructors
 
@@ -47,8 +46,8 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithDNewValue:(DBTEAMLOGEnableDisableChangePolicy *)dNewValue
-                    previousValue:(nullable DBTEAMLOGEnableDisableChangePolicy *)previousValue;
+- (instancetype)initWithDNewValue:(DBTEAMLOGContentPermanentDeletePolicy *)dNewValue
+                    previousValue:(nullable DBTEAMLOGContentPermanentDeletePolicy *)previousValue;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
@@ -58,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithDNewValue:(DBTEAMLOGEnableDisableChangePolicy *)dNewValue;
+- (instancetype)initWithDNewValue:(DBTEAMLOGContentPermanentDeletePolicy *)dNewValue;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -80,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGPermanentDeleteChangePolicyDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGPermanentDeleteChangePolicyDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGPermanentDeleteChangePolicyDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGPermanentDeleteChangePolicyDetails` instances.
@@ -91,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the
 /// `DBTEAMLOGPermanentDeleteChangePolicyDetails` object.
 ///
-+ (DBTEAMLOGPermanentDeleteChangePolicyDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGPermanentDeleteChangePolicyDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

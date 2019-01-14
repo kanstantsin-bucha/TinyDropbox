@@ -8,8 +8,8 @@
 
 #import "DBSerializableProtocol.h"
 
-@class DBTEAMLOGOptionalChangePolicy;
 @class DBTEAMLOGTfaChangePolicyDetails;
+@class DBTEAMPOLICIESTwoStepVerificationPolicy;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `TfaChangePolicyDetails` struct.
 ///
-/// Change two-step verification policy for the team.
+/// Changed two-step verification setting for team.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -29,10 +29,10 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Instance fields
 
 /// New change policy.
-@property (nonatomic, readonly) DBTEAMLOGOptionalChangePolicy *dNewValue;
+@property (nonatomic, readonly) DBTEAMPOLICIESTwoStepVerificationPolicy *dNewValue;
 
 /// Previous change policy. Might be missing due to historical data gap.
-@property (nonatomic, readonly, nullable) DBTEAMLOGOptionalChangePolicy *previousValue;
+@property (nonatomic, readonly, nullable) DBTEAMPOLICIESTwoStepVerificationPolicy *previousValue;
 
 #pragma mark - Constructors
 
@@ -45,8 +45,8 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithDNewValue:(DBTEAMLOGOptionalChangePolicy *)dNewValue
-                    previousValue:(nullable DBTEAMLOGOptionalChangePolicy *)previousValue;
+- (instancetype)initWithDNewValue:(DBTEAMPOLICIESTwoStepVerificationPolicy *)dNewValue
+                    previousValue:(nullable DBTEAMPOLICIESTwoStepVerificationPolicy *)previousValue;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithDNewValue:(DBTEAMLOGOptionalChangePolicy *)dNewValue;
+- (instancetype)initWithDNewValue:(DBTEAMPOLICIESTwoStepVerificationPolicy *)dNewValue;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGTfaChangePolicyDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGTfaChangePolicyDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGTfaChangePolicyDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGTfaChangePolicyDetails` instances.
@@ -88,7 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An instantiation of the `DBTEAMLOGTfaChangePolicyDetails` object.
 ///
-+ (DBTEAMLOGTfaChangePolicyDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGTfaChangePolicyDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

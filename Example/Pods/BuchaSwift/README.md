@@ -7,7 +7,7 @@
 
 ## Brief
 
-Contains base typealiases to preserve same completion types across different projects
+Contains base typealiases to preserve same completion types across different projects and code shortcuts
 
 ## Example
 

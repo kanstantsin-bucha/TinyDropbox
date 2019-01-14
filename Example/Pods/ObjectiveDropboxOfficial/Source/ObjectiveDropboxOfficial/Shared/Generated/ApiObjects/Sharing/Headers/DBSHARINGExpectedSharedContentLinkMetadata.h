@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// The `ExpectedSharedContentLinkMetadata` struct.
 ///
 /// The expected metadata of a shared link for a file or folder when a link is
-/// first created for  the content. Absent if the link already exists.
+/// first created for the content. Absent if the link already exists.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -105,7 +105,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBSHARINGExpectedSharedContentLinkMetadata` API object.
 ///
-+ (NSDictionary *)serialize:(DBSHARINGExpectedSharedContentLinkMetadata *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBSHARINGExpectedSharedContentLinkMetadata *)instance;
 
 ///
 /// Deserializes `DBSHARINGExpectedSharedContentLinkMetadata` instances.
@@ -116,7 +116,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the `DBSHARINGExpectedSharedContentLinkMetadata`
 /// object.
 ///
-+ (DBSHARINGExpectedSharedContentLinkMetadata *)deserialize:(NSDictionary *)dict;
++ (DBSHARINGExpectedSharedContentLinkMetadata *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

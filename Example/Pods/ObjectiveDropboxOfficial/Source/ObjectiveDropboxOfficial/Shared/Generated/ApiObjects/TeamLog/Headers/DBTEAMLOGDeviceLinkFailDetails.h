@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `DeviceLinkFailDetails` struct.
 ///
-/// Failed to link a device.
+/// Failed to link device.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -28,6 +28,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Instance fields
 
+/// IP address. Might be missing due to historical data gap.
+@property (nonatomic, readonly, copy, nullable) NSString *ipAddress;
+
 /// A description of the device used while user approval blocked.
 @property (nonatomic, readonly) DBTEAMLOGDeviceType *deviceType;
 
@@ -35,6 +38,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
+///
+/// @param deviceType A description of the device used while user approval
+/// blocked.
+/// @param ipAddress IP address. Might be missing due to historical data gap.
+///
+/// @return An initialized instance.
+///
+- (instancetype)initWithDeviceType:(DBTEAMLOGDeviceType *)deviceType ipAddress:(nullable NSString *)ipAddress;
+
+///
+/// Convenience constructor (exposes only non-nullable instance variables with
+/// no default value).
 ///
 /// @param deviceType A description of the device used while user approval
 /// blocked.
@@ -63,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGDeviceLinkFailDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGDeviceLinkFailDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGDeviceLinkFailDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGDeviceLinkFailDetails` instances.
@@ -73,7 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An instantiation of the `DBTEAMLOGDeviceLinkFailDetails` object.
 ///
-+ (DBTEAMLOGDeviceLinkFailDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGDeviceLinkFailDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

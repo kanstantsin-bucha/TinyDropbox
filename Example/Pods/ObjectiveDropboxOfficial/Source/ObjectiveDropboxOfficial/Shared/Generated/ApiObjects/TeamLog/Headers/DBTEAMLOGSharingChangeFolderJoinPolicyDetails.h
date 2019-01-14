@@ -8,8 +8,8 @@
 
 #import "DBSerializableProtocol.h"
 
-@class DBTEAMLOGExternalSharingPolicy;
 @class DBTEAMLOGSharingChangeFolderJoinPolicyDetails;
+@class DBTEAMLOGSharingFolderJoinPolicy;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,8 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `SharingChangeFolderJoinPolicyDetails` struct.
 ///
-/// Changed whether team members can join shared folders owned externally (i.e.
-/// outside the team).
+/// Changed whether team members can join shared folders owned outside team.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -30,10 +29,10 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Instance fields
 
 /// New external join policy.
-@property (nonatomic, readonly) DBTEAMLOGExternalSharingPolicy *dNewValue;
+@property (nonatomic, readonly) DBTEAMLOGSharingFolderJoinPolicy *dNewValue;
 
 /// Previous external join policy. Might be missing due to historical data gap.
-@property (nonatomic, readonly, nullable) DBTEAMLOGExternalSharingPolicy *previousValue;
+@property (nonatomic, readonly, nullable) DBTEAMLOGSharingFolderJoinPolicy *previousValue;
 
 #pragma mark - Constructors
 
@@ -46,8 +45,8 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithDNewValue:(DBTEAMLOGExternalSharingPolicy *)dNewValue
-                    previousValue:(nullable DBTEAMLOGExternalSharingPolicy *)previousValue;
+- (instancetype)initWithDNewValue:(DBTEAMLOGSharingFolderJoinPolicy *)dNewValue
+                    previousValue:(nullable DBTEAMLOGSharingFolderJoinPolicy *)previousValue;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
@@ -57,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithDNewValue:(DBTEAMLOGExternalSharingPolicy *)dNewValue;
+- (instancetype)initWithDNewValue:(DBTEAMLOGSharingFolderJoinPolicy *)dNewValue;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -80,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGSharingChangeFolderJoinPolicyDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGSharingChangeFolderJoinPolicyDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGSharingChangeFolderJoinPolicyDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGSharingChangeFolderJoinPolicyDetails` instances.
@@ -91,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the
 /// `DBTEAMLOGSharingChangeFolderJoinPolicyDetails` object.
 ///
-+ (DBTEAMLOGSharingChangeFolderJoinPolicyDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGSharingChangeFolderJoinPolicyDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

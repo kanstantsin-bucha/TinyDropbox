@@ -8,8 +8,8 @@
 
 #import "DBSerializableProtocol.h"
 
-@class DBTEAMLOGEnableDisableChangePolicy;
 @class DBTEAMLOGMicrosoftOfficeAddinChangePolicyDetails;
+@class DBTEAMLOGMicrosoftOfficeAddinPolicy;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,8 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `MicrosoftOfficeAddinChangePolicyDetails` struct.
 ///
-/// Enabled or disabled the Microsoft Office add-in, which lets team members
-/// save files to Dropbox directly from Microsoft Office.
+/// Enabled/disabled Microsoft Office add-in.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -30,11 +29,11 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Instance fields
 
 /// New Microsoft Office addin policy.
-@property (nonatomic, readonly) DBTEAMLOGEnableDisableChangePolicy *dNewValue;
+@property (nonatomic, readonly) DBTEAMLOGMicrosoftOfficeAddinPolicy *dNewValue;
 
 /// Previous Microsoft Office addin policy. Might be missing due to historical
 /// data gap.
-@property (nonatomic, readonly, nullable) DBTEAMLOGEnableDisableChangePolicy *previousValue;
+@property (nonatomic, readonly, nullable) DBTEAMLOGMicrosoftOfficeAddinPolicy *previousValue;
 
 #pragma mark - Constructors
 
@@ -47,8 +46,8 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithDNewValue:(DBTEAMLOGEnableDisableChangePolicy *)dNewValue
-                    previousValue:(nullable DBTEAMLOGEnableDisableChangePolicy *)previousValue;
+- (instancetype)initWithDNewValue:(DBTEAMLOGMicrosoftOfficeAddinPolicy *)dNewValue
+                    previousValue:(nullable DBTEAMLOGMicrosoftOfficeAddinPolicy *)previousValue;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
@@ -58,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithDNewValue:(DBTEAMLOGEnableDisableChangePolicy *)dNewValue;
+- (instancetype)initWithDNewValue:(DBTEAMLOGMicrosoftOfficeAddinPolicy *)dNewValue;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -81,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGMicrosoftOfficeAddinChangePolicyDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGMicrosoftOfficeAddinChangePolicyDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGMicrosoftOfficeAddinChangePolicyDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGMicrosoftOfficeAddinChangePolicyDetails` instances.
@@ -92,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the
 /// `DBTEAMLOGMicrosoftOfficeAddinChangePolicyDetails` object.
 ///
-+ (DBTEAMLOGMicrosoftOfficeAddinChangePolicyDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGMicrosoftOfficeAddinChangePolicyDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

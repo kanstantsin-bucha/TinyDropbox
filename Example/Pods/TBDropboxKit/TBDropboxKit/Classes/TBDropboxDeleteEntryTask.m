@@ -40,9 +40,9 @@
 - (void)performMainUsingRoutes:(DBFILESUserAuthRoutes *)routes
                 withCompletion:(CDBErrorCompletion)completion {
     
-    self.dropboxTask = [routes delete_: self.entry.dropboxPath];
+    self.dropboxTask = [routes delete_V2: self.entry.dropboxPath];
     weakCDB(wself);
-    [(DBRpcTask *)self.dropboxTask setResponseBlock: ^(DBFILESMetadata * response,
+    [(DBRpcTask *)self.dropboxTask setResponseBlock: ^(DBFILESDeleteResult * result,
                                                        id  _Nullable routeError,
                                                        DBRequestError * _Nullable requestError) {
         NSError * error = [wself composeErrorUsingRequestError: requestError
@@ -52,11 +52,14 @@
             return;
         }
         
+        DBFILESMetadata *resultMetadata = result.metadata;
+        // we create this because it help to proceed with group of different tasks in queue
+        // we determine a change (delete/create) based on a type of a metadata object
         DBFILESDeletedMetadata * metadata =
-            [[DBFILESDeletedMetadata alloc] initWithName:response.name
-                                               pathLower:response.pathLower
-                                             pathDisplay:response.pathDisplay
-                                    parentSharedFolderId:response.parentSharedFolderId];
+            [[DBFILESDeletedMetadata alloc] initWithName:resultMetadata.name
+                                               pathLower:resultMetadata.pathLower
+                                             pathDisplay:resultMetadata.pathDisplay
+                                    parentSharedFolderId:resultMetadata.parentSharedFolderId];
         id<TBDropboxEntry> metadataEntry =
             [TBDropboxEntryFactory entryUsingMetadata: metadata];
         if (metadataEntry != nil) {

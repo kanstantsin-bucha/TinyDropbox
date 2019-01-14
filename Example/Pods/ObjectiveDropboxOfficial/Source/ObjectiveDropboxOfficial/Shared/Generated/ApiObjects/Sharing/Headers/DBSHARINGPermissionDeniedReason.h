@@ -8,6 +8,7 @@
 
 #import "DBSerializableProtocol.h"
 
+@class DBSHARINGInsufficientPlan;
 @class DBSHARINGPermissionDeniedReason;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -70,6 +71,12 @@ typedef NS_ENUM(NSInteger, DBSHARINGPermissionDeniedReasonTag) {
   /// Folder is inside of another shared folder.
   DBSHARINGPermissionDeniedReasonFolderIsInsideSharedFolder,
 
+  /// Policy cannot be changed due to restrictions from parent folder.
+  DBSHARINGPermissionDeniedReasonRestrictedByParentFolder,
+
+  /// (no description).
+  DBSHARINGPermissionDeniedReasonInsufficientPlan,
+
   /// (no description).
   DBSHARINGPermissionDeniedReasonOther,
 
@@ -77,6 +84,10 @@ typedef NS_ENUM(NSInteger, DBSHARINGPermissionDeniedReasonTag) {
 
 /// Represents the union's current tag state.
 @property (nonatomic, readonly) DBSHARINGPermissionDeniedReasonTag tag;
+
+/// (no description). @note Ensure the `isInsufficientPlan` method returns true
+/// before accessing, otherwise a runtime exception will be raised.
+@property (nonatomic, readonly) DBSHARINGInsufficientPlan *insufficientPlan;
 
 #pragma mark - Constructors
 
@@ -210,6 +221,25 @@ typedef NS_ENUM(NSInteger, DBSHARINGPermissionDeniedReasonTag) {
 - (instancetype)initWithFolderIsInsideSharedFolder;
 
 ///
+/// Initializes union class with tag state of "restricted_by_parent_folder".
+///
+/// Description of the "restricted_by_parent_folder" tag state: Policy cannot be
+/// changed due to restrictions from parent folder.
+///
+/// @return An initialized instance.
+///
+- (instancetype)initWithRestrictedByParentFolder;
+
+///
+/// Initializes union class with tag state of "insufficient_plan".
+///
+/// @param insufficientPlan (no description).
+///
+/// @return An initialized instance.
+///
+- (instancetype)initWithInsufficientPlan:(DBSHARINGInsufficientPlan *)insufficientPlan;
+
+///
 /// Initializes union class with tag state of "other".
 ///
 /// @return An initialized instance.
@@ -329,6 +359,26 @@ typedef NS_ENUM(NSInteger, DBSHARINGPermissionDeniedReasonTag) {
 - (BOOL)isFolderIsInsideSharedFolder;
 
 ///
+/// Retrieves whether the union's current tag state has value
+/// "restricted_by_parent_folder".
+///
+/// @return Whether the union's current tag state has value
+/// "restricted_by_parent_folder".
+///
+- (BOOL)isRestrictedByParentFolder;
+
+///
+/// Retrieves whether the union's current tag state has value
+/// "insufficient_plan".
+///
+/// @note Call this method and ensure it returns true before accessing the
+/// `insufficientPlan` property, otherwise a runtime exception will be thrown.
+///
+/// @return Whether the union's current tag state has value "insufficient_plan".
+///
+- (BOOL)isInsufficientPlan;
+
+///
 /// Retrieves whether the union's current tag state has value "other".
 ///
 /// @return Whether the union's current tag state has value "other".
@@ -360,7 +410,7 @@ typedef NS_ENUM(NSInteger, DBSHARINGPermissionDeniedReasonTag) {
 /// @return A json-compatible dictionary representation of the
 /// `DBSHARINGPermissionDeniedReason` API object.
 ///
-+ (NSDictionary *)serialize:(DBSHARINGPermissionDeniedReason *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBSHARINGPermissionDeniedReason *)instance;
 
 ///
 /// Deserializes `DBSHARINGPermissionDeniedReason` instances.
@@ -370,7 +420,7 @@ typedef NS_ENUM(NSInteger, DBSHARINGPermissionDeniedReasonTag) {
 ///
 /// @return An instantiation of the `DBSHARINGPermissionDeniedReason` object.
 ///
-+ (DBSHARINGPermissionDeniedReason *)deserialize:(NSDictionary *)dict;
++ (DBSHARINGPermissionDeniedReason *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

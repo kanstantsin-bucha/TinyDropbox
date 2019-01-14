@@ -8,9 +8,8 @@
 
 #import "DBSerializableProtocol.h"
 
+@class DBTEAMCOMMONGroupManagementType;
 @class DBTEAMLOGGroupChangeManagementTypeDetails;
-@class DBTEAMLOGGroupLogInfo;
-@class DBTEAMLOGGroupManagementType;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -29,42 +28,35 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Instance fields
 
-/// Group details.
-@property (nonatomic, readonly) DBTEAMLOGGroupLogInfo *groupInfo;
-
 /// New group management type.
-@property (nonatomic, readonly) DBTEAMLOGGroupManagementType *dNewValue;
+@property (nonatomic, readonly) DBTEAMCOMMONGroupManagementType *dNewValue;
 
 /// Previous group management type. Might be missing due to historical data gap.
-@property (nonatomic, readonly, nullable) DBTEAMLOGGroupManagementType *previousValue;
+@property (nonatomic, readonly, nullable) DBTEAMCOMMONGroupManagementType *previousValue;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param groupInfo Group details.
 /// @param dNewValue New group management type.
 /// @param previousValue Previous group management type. Might be missing due to
 /// historical data gap.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithGroupInfo:(DBTEAMLOGGroupLogInfo *)groupInfo
-                        dNewValue:(DBTEAMLOGGroupManagementType *)dNewValue
-                    previousValue:(nullable DBTEAMLOGGroupManagementType *)previousValue;
+- (instancetype)initWithDNewValue:(DBTEAMCOMMONGroupManagementType *)dNewValue
+                    previousValue:(nullable DBTEAMCOMMONGroupManagementType *)previousValue;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
 /// no default value).
 ///
-/// @param groupInfo Group details.
 /// @param dNewValue New group management type.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithGroupInfo:(DBTEAMLOGGroupLogInfo *)groupInfo
-                        dNewValue:(DBTEAMLOGGroupManagementType *)dNewValue;
+- (instancetype)initWithDNewValue:(DBTEAMCOMMONGroupManagementType *)dNewValue;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -86,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGGroupChangeManagementTypeDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGGroupChangeManagementTypeDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGGroupChangeManagementTypeDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGGroupChangeManagementTypeDetails` instances.
@@ -97,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the `DBTEAMLOGGroupChangeManagementTypeDetails`
 /// object.
 ///
-+ (DBTEAMLOGGroupChangeManagementTypeDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGGroupChangeManagementTypeDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

@@ -11,6 +11,7 @@
 @class DBTEAMTeamFolderAccessError;
 @class DBTEAMTeamFolderArchiveError;
 @class DBTEAMTeamFolderInvalidStatusError;
+@class DBTEAMTeamFolderTeamSharedDropboxError;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -37,6 +38,9 @@ typedef NS_ENUM(NSInteger, DBTEAMTeamFolderArchiveErrorTag) {
   DBTEAMTeamFolderArchiveErrorStatusError,
 
   /// (no description).
+  DBTEAMTeamFolderArchiveErrorTeamSharedDropboxError,
+
+  /// (no description).
   DBTEAMTeamFolderArchiveErrorOther,
 
 };
@@ -51,6 +55,10 @@ typedef NS_ENUM(NSInteger, DBTEAMTeamFolderArchiveErrorTag) {
 /// (no description). @note Ensure the `isStatusError` method returns true
 /// before accessing, otherwise a runtime exception will be raised.
 @property (nonatomic, readonly) DBTEAMTeamFolderInvalidStatusError *statusError;
+
+/// (no description). @note Ensure the `isTeamSharedDropboxError` method returns
+/// true before accessing, otherwise a runtime exception will be raised.
+@property (nonatomic, readonly) DBTEAMTeamFolderTeamSharedDropboxError *teamSharedDropboxError;
 
 #pragma mark - Constructors
 
@@ -71,6 +79,15 @@ typedef NS_ENUM(NSInteger, DBTEAMTeamFolderArchiveErrorTag) {
 /// @return An initialized instance.
 ///
 - (instancetype)initWithStatusError:(DBTEAMTeamFolderInvalidStatusError *)statusError;
+
+///
+/// Initializes union class with tag state of "team_shared_dropbox_error".
+///
+/// @param teamSharedDropboxError (no description).
+///
+/// @return An initialized instance.
+///
+- (instancetype)initWithTeamSharedDropboxError:(DBTEAMTeamFolderTeamSharedDropboxError *)teamSharedDropboxError;
 
 ///
 /// Initializes union class with tag state of "other".
@@ -104,6 +121,19 @@ typedef NS_ENUM(NSInteger, DBTEAMTeamFolderArchiveErrorTag) {
 - (BOOL)isStatusError;
 
 ///
+/// Retrieves whether the union's current tag state has value
+/// "team_shared_dropbox_error".
+///
+/// @note Call this method and ensure it returns true before accessing the
+/// `teamSharedDropboxError` property, otherwise a runtime exception will be
+/// thrown.
+///
+/// @return Whether the union's current tag state has value
+/// "team_shared_dropbox_error".
+///
+- (BOOL)isTeamSharedDropboxError;
+
+///
 /// Retrieves whether the union's current tag state has value "other".
 ///
 /// @return Whether the union's current tag state has value "other".
@@ -135,7 +165,7 @@ typedef NS_ENUM(NSInteger, DBTEAMTeamFolderArchiveErrorTag) {
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMTeamFolderArchiveError` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMTeamFolderArchiveError *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMTeamFolderArchiveError *)instance;
 
 ///
 /// Deserializes `DBTEAMTeamFolderArchiveError` instances.
@@ -145,7 +175,7 @@ typedef NS_ENUM(NSInteger, DBTEAMTeamFolderArchiveErrorTag) {
 ///
 /// @return An instantiation of the `DBTEAMTeamFolderArchiveError` object.
 ///
-+ (DBTEAMTeamFolderArchiveError *)deserialize:(NSDictionary *)dict;
++ (DBTEAMTeamFolderArchiveError *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

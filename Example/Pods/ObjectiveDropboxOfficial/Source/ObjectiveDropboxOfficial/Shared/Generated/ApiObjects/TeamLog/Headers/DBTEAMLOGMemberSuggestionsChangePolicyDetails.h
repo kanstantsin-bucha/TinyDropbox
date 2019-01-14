@@ -8,8 +8,8 @@
 
 #import "DBSerializableProtocol.h"
 
-@class DBTEAMLOGEnableDisableChangePolicy;
 @class DBTEAMLOGMemberSuggestionsChangePolicyDetails;
+@class DBTEAMLOGMemberSuggestionsPolicy;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,8 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `MemberSuggestionsChangePolicyDetails` struct.
 ///
-/// Enabled or disabled the option for team members to suggest new members to
-/// add to the team.
+/// Enabled/disabled option for team members to suggest people to add to team.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -30,11 +29,11 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Instance fields
 
 /// New team member suggestions policy.
-@property (nonatomic, readonly) DBTEAMLOGEnableDisableChangePolicy *dNewValue;
+@property (nonatomic, readonly) DBTEAMLOGMemberSuggestionsPolicy *dNewValue;
 
 /// Previous team member suggestions policy. Might be missing due to historical
 /// data gap.
-@property (nonatomic, readonly, nullable) DBTEAMLOGEnableDisableChangePolicy *previousValue;
+@property (nonatomic, readonly, nullable) DBTEAMLOGMemberSuggestionsPolicy *previousValue;
 
 #pragma mark - Constructors
 
@@ -47,8 +46,8 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithDNewValue:(DBTEAMLOGEnableDisableChangePolicy *)dNewValue
-                    previousValue:(nullable DBTEAMLOGEnableDisableChangePolicy *)previousValue;
+- (instancetype)initWithDNewValue:(DBTEAMLOGMemberSuggestionsPolicy *)dNewValue
+                    previousValue:(nullable DBTEAMLOGMemberSuggestionsPolicy *)previousValue;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
@@ -58,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithDNewValue:(DBTEAMLOGEnableDisableChangePolicy *)dNewValue;
+- (instancetype)initWithDNewValue:(DBTEAMLOGMemberSuggestionsPolicy *)dNewValue;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -81,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGMemberSuggestionsChangePolicyDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGMemberSuggestionsChangePolicyDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGMemberSuggestionsChangePolicyDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGMemberSuggestionsChangePolicyDetails` instances.
@@ -92,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the
 /// `DBTEAMLOGMemberSuggestionsChangePolicyDetails` object.
 ///
-+ (DBTEAMLOGMemberSuggestionsChangePolicyDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGMemberSuggestionsChangePolicyDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

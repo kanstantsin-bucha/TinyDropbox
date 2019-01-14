@@ -11,13 +11,18 @@
 #import "TBDropboxFolderEntry.h"
 
 
+#define TBDropboxListFolderTaskListItemsMaxLimitCount 2000
+
+
 @interface TBDropboxListFolderTask : TBDropboxTask
 
 @property (strong, nonatomic, readonly, nonnull) TBDropboxFolderEntry * entry;
+@property (assign, nonatomic) NSInteger listItemsMaxLimit;
 @property (assign, nonatomic) BOOL recursive;
 @property (assign, nonatomic) BOOL includeDeleted;
 @property (assign, nonatomic) BOOL includeMediaInfo;
 @property (assign, nonatomic) BOOL includeHasExplicitSharedMembers;
+@property (assign, nonatomic) BOOL includeMountedFolders;
 
 @property (strong, nonatomic, readonly, nullable) TBDropboxCursor * cursor;
 @property (strong, nonatomic, readonly, nullable) NSArray<id<TBDropboxEntry>> * folderEntries;

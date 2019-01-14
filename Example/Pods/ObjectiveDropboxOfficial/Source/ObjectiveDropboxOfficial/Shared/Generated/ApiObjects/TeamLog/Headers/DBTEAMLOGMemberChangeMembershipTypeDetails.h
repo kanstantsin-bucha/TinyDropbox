@@ -9,6 +9,7 @@
 #import "DBSerializableProtocol.h"
 
 @class DBTEAMLOGMemberChangeMembershipTypeDetails;
+@class DBTEAMLOGTeamMembershipType;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `MemberChangeMembershipTypeDetails` struct.
 ///
-/// Changed the membership type (limited vs full) for team member.
+/// Changed membership type (limited/full) of member.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -28,23 +29,23 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Instance fields
 
 /// Previous membership type.
-@property (nonatomic, readonly) NSNumber *prevMembershipType;
+@property (nonatomic, readonly) DBTEAMLOGTeamMembershipType *prevValue;
 
 /// New membership type.
-@property (nonatomic, readonly) NSNumber *dNewMembershipType;
+@property (nonatomic, readonly) DBTEAMLOGTeamMembershipType *dNewValue;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param prevMembershipType Previous membership type.
-/// @param dNewMembershipType New membership type.
+/// @param prevValue Previous membership type.
+/// @param dNewValue New membership type.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithPrevMembershipType:(NSNumber *)prevMembershipType
-                        dNewMembershipType:(NSNumber *)dNewMembershipType;
+- (instancetype)initWithPrevValue:(DBTEAMLOGTeamMembershipType *)prevValue
+                        dNewValue:(DBTEAMLOGTeamMembershipType *)dNewValue;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -66,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGMemberChangeMembershipTypeDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGMemberChangeMembershipTypeDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGMemberChangeMembershipTypeDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGMemberChangeMembershipTypeDetails` instances.
@@ -77,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the `DBTEAMLOGMemberChangeMembershipTypeDetails`
 /// object.
 ///
-+ (DBTEAMLOGMemberChangeMembershipTypeDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGMemberChangeMembershipTypeDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

@@ -33,7 +33,7 @@ class ListDropboxViewController: UIViewController {
     
 // MARK: - events -
 
-    func dropboxDidCahngeState (notification: NSNotification) {
+    @objc func dropboxDidChangeState (notification: Notification) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let state = notification.userInfo?[appDelegate.dropboxStateNotificationKey];
         
@@ -50,7 +50,7 @@ class ListDropboxViewController: UIViewController {
     private func subscribeToNotifications () {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(ListDropboxViewController.dropboxDidCahngeState(notification:)),
+                                               selector: #selector(ListDropboxViewController.dropboxDidChangeState(notification:)),
                                                name: NSNotification.Name(rawValue: appDelegate.dropboxStateChangedNotification),
                                                object: appDelegate)
     }
@@ -61,9 +61,12 @@ class ListDropboxViewController: UIViewController {
     
     private func open(fileAt url: URL) {
         switch url.pathExtension.lowercased() {
-        // write your open file logic here
+        case "jpg":
+            UIApplication.shared.open(url, options: [:]) { (succeed) in
+                print("open jpg file \(succeed ? "succeed" : "failed")")
+            }
         default:
-            print("failed to opnen unsupported file \(String(describing: url))")
+            print("failed to open unsupported file \(String(describing: url))")
         }
     }
     
@@ -81,39 +84,47 @@ class ListDropboxViewController: UIViewController {
         // upload image to dropbox app folder
         // Apps/BuchaTestSuite/images
         
-        dropbox.upload(toPath: imagePath, from: imageUrl!) { [weak self] (error: DropboxError?) in
-            dropbox.listDirectory { [weak self] (list: DropboxFilesList, error: DropboxError?) in
-            guard list != nil, list!.count >= 1 else {
-                    print("so you definately has no files in your dropbox Apps/BuchaTestSuite/images folder")
-                    return
+        dropbox.upload(
+            toPath: imagePath,
+            from: imageUrl!) { [weak self] (error: DropboxError?) in
+                if let error = error {
+                    print("Tiny Dropbox  Upload file: failed(\( error))")
                 }
-                
-                var path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0];
-                path.append("/")
-                let imageFile = self?.imageFile as String?
-                path.append(imageFile!)
-                
-                let url = URL.init(fileURLWithPath: path)
-                print(url);
-                
-                let richable = try? url.checkResourceIsReachable()
-                
-                guard richable == nil || richable == false else {
-                    self?.open(fileAt: url)
-                    return
+                else {
+                    print("Tiny Dropbox  Upload file: succeed")
                 }
-                
-                print("no local file found - start downloading")
-                
-                dropbox.download(atPath: list![0], to: url, completion: { [weak self]  (error: DropboxError?) in
-                    if let error = error {
-                        print(error)
-                    } else {
-                        self?.open(fileAt: url)
+                dropbox.listDirectory { [weak self] (list: DropboxFilesList, error: DropboxError?) in
+                    guard list != nil, list!.count >= 1 else {
+                        print("so you definately has no files in your dropbox Apps/BuchaTestSuite/images folder")
+                        return
                     }
-                })
+                    
+                    var path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0];
+                    path.append("/")
+                    let imageFile = self?.imageFile as String?
+                    path.append(imageFile!)
+                    
+                    let url = URL.init(fileURLWithPath: path)
+                    print(url);
+                    
+                    let richable = try? url.checkResourceIsReachable()
+                    
+                    guard richable == nil || richable == false else {
+                        self?.open(fileAt: url)
+                        return
+                    }
+                    
+                    print("no local file found - start downloading")
+                    
+                    dropbox.download(atPath: list![0], to: url, completion: { [weak self]  (error: DropboxError?) in
+                        if let error = error {
+                            print(error)
+                        } else {
+                            self?.open(fileAt: url)
+                        }
+                    })
+                }
             }
-        }
     }
     
 }

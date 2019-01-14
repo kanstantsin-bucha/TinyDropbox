@@ -15,9 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 @interface NSArray (DBSerializable) <DBSerializable>
 
-+ (NSDictionary *)serialize:(id)obj;
++ (nullable NSDictionary<NSString *, id> *)serialize:(id)obj;
 
-+ (id)deserialize:(NSDictionary *)dict;
++ (id)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 
@@ -28,9 +28,9 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 @interface NSString (DBSerializable) <DBSerializable>
 
-+ (NSDictionary *)serialize:(id)obj;
++ (nullable NSDictionary<NSString *, id> *)serialize:(id)obj;
 
-+ (id)deserialize:(NSDictionary *)dict;
++ (id)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 
@@ -63,6 +63,23 @@ NS_ASSUME_NONNULL_BEGIN
 /// all elements deserialized. The serialization block either deserializes the object, or if the
 /// object is a wrapper for a primitive type, it leaves it unchanged.
 + (NSArray *)deserialize:(NSArray *)jsonData withBlock:(id (^_Nonnull)(id))deserializeBlock;
+
+@end
+
+///
+/// Serializer functions used by the SDK to serialize/deserialize `NSArray` types.
+///
+@interface DBMapSerializer : NSObject
+
+/// Applies a serialization block to each element in the map and returns a new map with
+/// all elements serialized. The serialization block either serializes the object, or if the
+/// object is a wrapper for a primitive type, it leaves it unchanged.
++ (NSDictionary *)serialize:(NSDictionary *)value withBlock:(id (^_Nonnull)(id))serializeBlock;
+
+/// Applies a deserialization block to each element in the map and returns a new map with
+/// all elements deserialized. The serialization block either deserializes the object, or if the
+/// object is a wrapper for a primitive type, it leaves it unchanged.
++ (NSDictionary *)deserialize:(NSDictionary *)jsonData withBlock:(id (^_Nonnull)(id))deserializeBlock;
 
 @end
 

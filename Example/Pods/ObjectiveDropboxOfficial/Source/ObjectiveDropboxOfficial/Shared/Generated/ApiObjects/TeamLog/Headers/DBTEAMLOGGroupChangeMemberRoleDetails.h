@@ -9,7 +9,6 @@
 #import "DBSerializableProtocol.h"
 
 @class DBTEAMLOGGroupChangeMemberRoleDetails;
-@class DBTEAMLOGGroupLogInfo;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `GroupChangeMemberRoleDetails` struct.
 ///
-/// Changed the manager permissions belonging to a group member.
+/// Changed manager permissions of group member.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -28,9 +27,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Instance fields
 
-/// Group details.
-@property (nonatomic, readonly) DBTEAMLOGGroupLogInfo *groupInfo;
-
 /// Is group owner.
 @property (nonatomic, readonly) NSNumber *isGroupOwner;
 
@@ -39,12 +35,11 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param groupInfo Group details.
 /// @param isGroupOwner Is group owner.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithGroupInfo:(DBTEAMLOGGroupLogInfo *)groupInfo isGroupOwner:(NSNumber *)isGroupOwner;
+- (instancetype)initWithIsGroupOwner:(NSNumber *)isGroupOwner;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -66,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGGroupChangeMemberRoleDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGGroupChangeMemberRoleDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGGroupChangeMemberRoleDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGGroupChangeMemberRoleDetails` instances.
@@ -77,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the `DBTEAMLOGGroupChangeMemberRoleDetails`
 /// object.
 ///
-+ (DBTEAMLOGGroupChangeMemberRoleDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGGroupChangeMemberRoleDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

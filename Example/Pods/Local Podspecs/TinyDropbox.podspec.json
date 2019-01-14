@@ -1,6 +1,6 @@
 {
   "name": "TinyDropbox",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "summary": "Easy to use dropbox sync for swift coders [wrapper on TBDropboxKit]",
   "description": "Easy to use dropbox sync for swift coders [wrapper on TBDropboxKit] Could list files, upload, download and\nwatching server changes",
   "homepage": "https://github.com/truebucha/TinyDropbox",
@@ -13,20 +13,20 @@
   },
   "source": {
     "git": "https://github.com/truebucha/TinyDropbox.git",
-    "tag": "1.0.0"
+    "tag": "1.1.0"
   },
   "social_media_url": "https://twitter.com/truebucha",
   "platforms": {
-    "ios": "9.0"
+    "ios": "10.0"
   },
   "source_files": "TinyDropbox/Classes/**/*.{swift}",
   "frameworks": "Foundation",
   "dependencies": {
     "TBDropboxKit": [
-      "~> 1.1"
+      "= 1.2.3"
     ],
     "BuchaSwift": [
-      "~> 1.0"
+      "= 1.1.0"
     ]
   }
 }

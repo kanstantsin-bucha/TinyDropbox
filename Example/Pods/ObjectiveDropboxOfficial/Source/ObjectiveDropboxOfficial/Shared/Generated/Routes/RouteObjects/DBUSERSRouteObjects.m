@@ -5,6 +5,7 @@
 ///
 
 #import "DBUSERSRouteObjects.h"
+#import "DBCOMMONRootInfo.h"
 #import "DBRequestErrors.h"
 #import "DBStoneBase.h"
 #import "DBUSERSAccount.h"
@@ -38,8 +39,8 @@ static DBRoute *DBUSERSGetSpaceUsage;
                                           @"host" : @"api",
                                           @"style" : @"rpc"
                                         }
-                             arraySerialBlock:nil
-                           arrayDeserialBlock:nil];
+                        dataStructSerialBlock:nil
+                      dataStructDeserialBlock:nil];
   }
   return DBUSERSGetAccount;
 }
@@ -56,9 +57,9 @@ static DBRoute *DBUSERSGetSpaceUsage;
           @"host" : @"api",
           @"style" : @"rpc"
         }
-        arraySerialBlock:nil
-        arrayDeserialBlock:^id(id array) {
-          return [DBArraySerializer deserialize:array
+        dataStructSerialBlock:nil
+        dataStructDeserialBlock:^id(id dataStruct) {
+          return [DBArraySerializer deserialize:dataStruct
                                       withBlock:^id(id elem0) {
                                         return [DBUSERSBasicAccountSerializer deserialize:elem0];
                                       }];
@@ -79,8 +80,8 @@ static DBRoute *DBUSERSGetSpaceUsage;
                                                  @"host" : @"api",
                                                  @"style" : @"rpc"
                                                }
-                                    arraySerialBlock:nil
-                                  arrayDeserialBlock:nil];
+                               dataStructSerialBlock:nil
+                             dataStructDeserialBlock:nil];
   }
   return DBUSERSGetCurrentAccount;
 }
@@ -97,8 +98,8 @@ static DBRoute *DBUSERSGetSpaceUsage;
                                              @"host" : @"api",
                                              @"style" : @"rpc"
                                            }
-                                arraySerialBlock:nil
-                              arrayDeserialBlock:nil];
+                           dataStructSerialBlock:nil
+                         dataStructDeserialBlock:nil];
   }
   return DBUSERSGetSpaceUsage;
 }

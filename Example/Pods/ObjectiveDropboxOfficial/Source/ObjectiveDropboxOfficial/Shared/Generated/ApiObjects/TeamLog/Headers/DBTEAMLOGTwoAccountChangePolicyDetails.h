@@ -8,8 +8,8 @@
 
 #import "DBSerializableProtocol.h"
 
-@class DBTEAMLOGEnableDisableChangePolicy;
 @class DBTEAMLOGTwoAccountChangePolicyDetails;
+@class DBTEAMLOGTwoAccountPolicy;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,8 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `TwoAccountChangePolicyDetails` struct.
 ///
-/// Enabled or disabled the option for team members to link a personal Dropbox
-/// account in addition to their work account to the same computer.
+/// Enabled/disabled option for members to link personal Dropbox account and
+/// team account to same computer.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -30,10 +30,10 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Instance fields
 
 /// New two account policy.
-@property (nonatomic, readonly) DBTEAMLOGEnableDisableChangePolicy *dNewValue;
+@property (nonatomic, readonly) DBTEAMLOGTwoAccountPolicy *dNewValue;
 
 /// Previous two account policy. Might be missing due to historical data gap.
-@property (nonatomic, readonly, nullable) DBTEAMLOGEnableDisableChangePolicy *previousValue;
+@property (nonatomic, readonly, nullable) DBTEAMLOGTwoAccountPolicy *previousValue;
 
 #pragma mark - Constructors
 
@@ -46,8 +46,8 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithDNewValue:(DBTEAMLOGEnableDisableChangePolicy *)dNewValue
-                    previousValue:(nullable DBTEAMLOGEnableDisableChangePolicy *)previousValue;
+- (instancetype)initWithDNewValue:(DBTEAMLOGTwoAccountPolicy *)dNewValue
+                    previousValue:(nullable DBTEAMLOGTwoAccountPolicy *)previousValue;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithDNewValue:(DBTEAMLOGEnableDisableChangePolicy *)dNewValue;
+- (instancetype)initWithDNewValue:(DBTEAMLOGTwoAccountPolicy *)dNewValue;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -79,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGTwoAccountChangePolicyDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGTwoAccountChangePolicyDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGTwoAccountChangePolicyDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGTwoAccountChangePolicyDetails` instances.
@@ -90,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the `DBTEAMLOGTwoAccountChangePolicyDetails`
 /// object.
 ///
-+ (DBTEAMLOGTwoAccountChangePolicyDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGTwoAccountChangePolicyDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

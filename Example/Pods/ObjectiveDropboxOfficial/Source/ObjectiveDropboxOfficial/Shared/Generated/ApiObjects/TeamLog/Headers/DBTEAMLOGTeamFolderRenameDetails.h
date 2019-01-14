@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `TeamFolderRenameDetails` struct.
 ///
-/// Renamed an active or archived team folder.
+/// Renamed active/archived team folder.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -27,23 +27,23 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Instance fields
 
-/// Source asset index.
-@property (nonatomic, readonly) NSNumber *srcIndex;
+/// Previous folder name.
+@property (nonatomic, readonly, copy) NSString *previousFolderName;
 
-/// Destination asset index.
-@property (nonatomic, readonly) NSNumber *destIndex;
+/// New folder name.
+@property (nonatomic, readonly, copy) NSString *dNewFolderName;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param srcIndex Source asset index.
-/// @param destIndex Destination asset index.
+/// @param previousFolderName Previous folder name.
+/// @param dNewFolderName New folder name.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithSrcIndex:(NSNumber *)srcIndex destIndex:(NSNumber *)destIndex;
+- (instancetype)initWithPreviousFolderName:(NSString *)previousFolderName dNewFolderName:(NSString *)dNewFolderName;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -65,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGTeamFolderRenameDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGTeamFolderRenameDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGTeamFolderRenameDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGTeamFolderRenameDetails` instances.
@@ -75,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An instantiation of the `DBTEAMLOGTeamFolderRenameDetails` object.
 ///
-+ (DBTEAMLOGTeamFolderRenameDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGTeamFolderRenameDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

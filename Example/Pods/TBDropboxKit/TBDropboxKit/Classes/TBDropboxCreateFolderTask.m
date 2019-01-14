@@ -43,7 +43,7 @@
 
 - (void)performMainUsingRoutes:(DBFILESUserAuthRoutes *)routes
                 withCompletion:(CDBErrorCompletion)completion {
-    self.dropboxTask = [routes createFolder:self.entry.dropboxPath];
+    self.dropboxTask = [routes createFolderV2: self.entry.dropboxPath];
     
     weakCDB(wself);
     [(DBRpcTask *)self.dropboxTask setResponseBlock:^(DBFILESFolderMetadata * response,

@@ -20,7 +20,10 @@
 #import "DBPAPERListUsersOnPaperDocResponse.h"
 #import "DBPAPERPaperApiBaseError.h"
 #import "DBPAPERPaperApiCursorError.h"
+#import "DBPAPERPaperDocCreateError.h"
+#import "DBPAPERPaperDocCreateUpdateResult.h"
 #import "DBPAPERPaperDocExportResult.h"
+#import "DBPAPERPaperDocUpdateError.h"
 #import "DBPAPERSharingPolicy.h"
 #import "DBPAPERSharingPublicPolicyType.h"
 #import "DBPAPERSharingTeamPolicyType.h"
@@ -35,6 +38,7 @@
 @implementation DBPAPERRouteObjects
 
 static DBRoute *DBPAPERDocsArchive;
+static DBRoute *DBPAPERDocsCreate;
 static DBRoute *DBPAPERDocsDownload;
 static DBRoute *DBPAPERDocsFolderUsersList;
 static DBRoute *DBPAPERDocsFolderUsersListContinue;
@@ -44,6 +48,7 @@ static DBRoute *DBPAPERDocsListContinue;
 static DBRoute *DBPAPERDocsPermanentlyDelete;
 static DBRoute *DBPAPERDocsSharingPolicyGet;
 static DBRoute *DBPAPERDocsSharingPolicySet;
+static DBRoute *DBPAPERDocsUpdate;
 static DBRoute *DBPAPERDocsUsersAdd;
 static DBRoute *DBPAPERDocsUsersList;
 static DBRoute *DBPAPERDocsUsersListContinue;
@@ -61,10 +66,28 @@ static DBRoute *DBPAPERDocsUsersRemove;
                                            @"host" : @"api",
                                            @"style" : @"rpc"
                                          }
-                              arraySerialBlock:nil
-                            arrayDeserialBlock:nil];
+                         dataStructSerialBlock:nil
+                       dataStructDeserialBlock:nil];
   }
   return DBPAPERDocsArchive;
+}
+
++ (DBRoute *)DBPAPERDocsCreate {
+  if (!DBPAPERDocsCreate) {
+    DBPAPERDocsCreate = [[DBRoute alloc] init:@"docs/create"
+                                   namespace_:@"paper"
+                                   deprecated:@NO
+                                   resultType:[DBPAPERPaperDocCreateUpdateResult class]
+                                    errorType:[DBPAPERPaperDocCreateError class]
+                                        attrs:@{
+                                          @"auth" : @"user",
+                                          @"host" : @"api",
+                                          @"style" : @"upload"
+                                        }
+                        dataStructSerialBlock:nil
+                      dataStructDeserialBlock:nil];
+  }
+  return DBPAPERDocsCreate;
 }
 
 + (DBRoute *)DBPAPERDocsDownload {
@@ -79,8 +102,8 @@ static DBRoute *DBPAPERDocsUsersRemove;
                                             @"host" : @"api",
                                             @"style" : @"download"
                                           }
-                               arraySerialBlock:nil
-                             arrayDeserialBlock:nil];
+                          dataStructSerialBlock:nil
+                        dataStructDeserialBlock:nil];
   }
   return DBPAPERDocsDownload;
 }
@@ -97,8 +120,8 @@ static DBRoute *DBPAPERDocsUsersRemove;
                                                    @"host" : @"api",
                                                    @"style" : @"rpc"
                                                  }
-                                      arraySerialBlock:nil
-                                    arrayDeserialBlock:nil];
+                                 dataStructSerialBlock:nil
+                               dataStructDeserialBlock:nil];
   }
   return DBPAPERDocsFolderUsersList;
 }
@@ -115,8 +138,8 @@ static DBRoute *DBPAPERDocsUsersRemove;
                                                            @"host" : @"api",
                                                            @"style" : @"rpc"
                                                          }
-                                              arraySerialBlock:nil
-                                            arrayDeserialBlock:nil];
+                                         dataStructSerialBlock:nil
+                                       dataStructDeserialBlock:nil];
   }
   return DBPAPERDocsFolderUsersListContinue;
 }
@@ -133,8 +156,8 @@ static DBRoute *DBPAPERDocsUsersRemove;
                                                  @"host" : @"api",
                                                  @"style" : @"rpc"
                                                }
-                                    arraySerialBlock:nil
-                                  arrayDeserialBlock:nil];
+                               dataStructSerialBlock:nil
+                             dataStructDeserialBlock:nil];
   }
   return DBPAPERDocsGetFolderInfo;
 }
@@ -151,8 +174,8 @@ static DBRoute *DBPAPERDocsUsersRemove;
                                         @"host" : @"api",
                                         @"style" : @"rpc"
                                       }
-                           arraySerialBlock:nil
-                         arrayDeserialBlock:nil];
+                      dataStructSerialBlock:nil
+                    dataStructDeserialBlock:nil];
   }
   return DBPAPERDocsList;
 }
@@ -169,8 +192,8 @@ static DBRoute *DBPAPERDocsUsersRemove;
                                                 @"host" : @"api",
                                                 @"style" : @"rpc"
                                               }
-                                   arraySerialBlock:nil
-                                 arrayDeserialBlock:nil];
+                              dataStructSerialBlock:nil
+                            dataStructDeserialBlock:nil];
   }
   return DBPAPERDocsListContinue;
 }
@@ -187,8 +210,8 @@ static DBRoute *DBPAPERDocsUsersRemove;
                                                      @"host" : @"api",
                                                      @"style" : @"rpc"
                                                    }
-                                        arraySerialBlock:nil
-                                      arrayDeserialBlock:nil];
+                                   dataStructSerialBlock:nil
+                                 dataStructDeserialBlock:nil];
   }
   return DBPAPERDocsPermanentlyDelete;
 }
@@ -205,8 +228,8 @@ static DBRoute *DBPAPERDocsUsersRemove;
                                                     @"host" : @"api",
                                                     @"style" : @"rpc"
                                                   }
-                                       arraySerialBlock:nil
-                                     arrayDeserialBlock:nil];
+                                  dataStructSerialBlock:nil
+                                dataStructDeserialBlock:nil];
   }
   return DBPAPERDocsSharingPolicyGet;
 }
@@ -223,10 +246,28 @@ static DBRoute *DBPAPERDocsUsersRemove;
                                                     @"host" : @"api",
                                                     @"style" : @"rpc"
                                                   }
-                                       arraySerialBlock:nil
-                                     arrayDeserialBlock:nil];
+                                  dataStructSerialBlock:nil
+                                dataStructDeserialBlock:nil];
   }
   return DBPAPERDocsSharingPolicySet;
+}
+
++ (DBRoute *)DBPAPERDocsUpdate {
+  if (!DBPAPERDocsUpdate) {
+    DBPAPERDocsUpdate = [[DBRoute alloc] init:@"docs/update"
+                                   namespace_:@"paper"
+                                   deprecated:@NO
+                                   resultType:[DBPAPERPaperDocCreateUpdateResult class]
+                                    errorType:[DBPAPERPaperDocUpdateError class]
+                                        attrs:@{
+                                          @"auth" : @"user",
+                                          @"host" : @"api",
+                                          @"style" : @"upload"
+                                        }
+                        dataStructSerialBlock:nil
+                      dataStructDeserialBlock:nil];
+  }
+  return DBPAPERDocsUpdate;
 }
 
 + (DBRoute *)DBPAPERDocsUsersAdd {
@@ -241,9 +282,9 @@ static DBRoute *DBPAPERDocsUsersRemove;
           @"host" : @"api",
           @"style" : @"rpc"
         }
-        arraySerialBlock:nil
-        arrayDeserialBlock:^id(id array) {
-          return [DBArraySerializer deserialize:array
+        dataStructSerialBlock:nil
+        dataStructDeserialBlock:^id(id dataStruct) {
+          return [DBArraySerializer deserialize:dataStruct
                                       withBlock:^id(id elem0) {
                                         return [DBPAPERAddPaperDocUserMemberResultSerializer deserialize:elem0];
                                       }];
@@ -264,8 +305,8 @@ static DBRoute *DBPAPERDocsUsersRemove;
                                              @"host" : @"api",
                                              @"style" : @"rpc"
                                            }
-                                arraySerialBlock:nil
-                              arrayDeserialBlock:nil];
+                           dataStructSerialBlock:nil
+                         dataStructDeserialBlock:nil];
   }
   return DBPAPERDocsUsersList;
 }
@@ -282,8 +323,8 @@ static DBRoute *DBPAPERDocsUsersRemove;
                                                      @"host" : @"api",
                                                      @"style" : @"rpc"
                                                    }
-                                        arraySerialBlock:nil
-                                      arrayDeserialBlock:nil];
+                                   dataStructSerialBlock:nil
+                                 dataStructDeserialBlock:nil];
   }
   return DBPAPERDocsUsersListContinue;
 }
@@ -300,8 +341,8 @@ static DBRoute *DBPAPERDocsUsersRemove;
                                                @"host" : @"api",
                                                @"style" : @"rpc"
                                              }
-                                  arraySerialBlock:nil
-                                arrayDeserialBlock:nil];
+                             dataStructSerialBlock:nil
+                           dataStructDeserialBlock:nil];
   }
   return DBPAPERDocsUsersRemove;
 }

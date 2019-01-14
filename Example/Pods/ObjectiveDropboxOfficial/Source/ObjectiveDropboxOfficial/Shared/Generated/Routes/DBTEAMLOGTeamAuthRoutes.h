@@ -10,6 +10,7 @@
 
 @class DBNilObject;
 @class DBTEAMCOMMONTimeRange;
+@class DBTEAMLOGEventCategory;
 @class DBTEAMLOGGetTeamEventsContinueError;
 @class DBTEAMLOGGetTeamEventsError;
 @class DBTEAMLOGGetTeamEventsResult;
@@ -34,7 +35,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init:(id<DBTransportClient>)client;
 
 ///
-/// Retrieves team events. Permission : Team Auditing.
+/// Retrieves team events. Events have a lifespan of two years. Events older than two years will not be returned. Many
+/// attributes note 'may be missing due to historical data gap'. Note that the file_operations category and & analogous
+/// paper events are not available on all Dropbox Business plans /business/plans-comparison. Use features/get_values
+/// /developers/documentation/http/teams#team-features-get_values to check for this feature. Permission : Team Auditing.
 ///
 ///
 /// @return Through the response callback, the caller will receive a `DBTEAMLOGGetTeamEventsResult` object on success or
@@ -43,12 +47,18 @@ NS_ASSUME_NONNULL_BEGIN
 - (DBRpcTask<DBTEAMLOGGetTeamEventsResult *, DBTEAMLOGGetTeamEventsError *> *)getEvents;
 
 ///
-/// Retrieves team events. Permission : Team Auditing.
+/// Retrieves team events. Events have a lifespan of two years. Events older than two years will not be returned. Many
+/// attributes note 'may be missing due to historical data gap'. Note that the file_operations category and & analogous
+/// paper events are not available on all Dropbox Business plans /business/plans-comparison. Use features/get_values
+/// /developers/documentation/http/teams#team-features-get_values to check for this feature. Permission : Team Auditing.
 ///
-/// @param limit Number of results to return per call.
+/// @param limit The maximal number of results to return per call. Note that some calls may not return limit number of
+/// events, and may even return no events, even with `has_more` set to true. In this case, callers should fetch again
+/// using `getEventsContinue`.
 /// @param accountId Filter the events by account ID. Return ony events with this account_id as either Actor, Context,
 /// or Participants.
 /// @param time Filter by time range.
+/// @param category Filter the returned events to a single category.
 ///
 /// @return Through the response callback, the caller will receive a `DBTEAMLOGGetTeamEventsResult` object on success or
 /// a `DBTEAMLOGGetTeamEventsError` object on failure.
@@ -56,7 +66,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (DBRpcTask<DBTEAMLOGGetTeamEventsResult *, DBTEAMLOGGetTeamEventsError *> *)
 getEvents:(nullable NSNumber *)limit
 accountId:(nullable NSString *)accountId
-     time:(nullable DBTEAMCOMMONTimeRange *)time;
+     time:(nullable DBTEAMCOMMONTimeRange *)time
+ category:(nullable DBTEAMLOGEventCategory *)category;
 
 ///
 /// Once a cursor has been retrieved from `getEvents`, use this to paginate through all events. Permission : Team

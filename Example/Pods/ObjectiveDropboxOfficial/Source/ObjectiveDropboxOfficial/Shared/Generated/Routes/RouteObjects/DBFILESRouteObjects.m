@@ -8,17 +8,38 @@
 #import "DBASYNCLaunchResultBase.h"
 #import "DBASYNCPollError.h"
 #import "DBASYNCPollResultBase.h"
-#import "DBFILESAddPropertiesError.h"
+#import "DBFILEPROPERTIESAddPropertiesError.h"
+#import "DBFILEPROPERTIESGetTemplateResult.h"
+#import "DBFILEPROPERTIESInvalidPropertyGroupError.h"
+#import "DBFILEPROPERTIESListTemplateResult.h"
+#import "DBFILEPROPERTIESLookUpPropertiesError.h"
+#import "DBFILEPROPERTIESLookupError.h"
+#import "DBFILEPROPERTIESPropertiesError.h"
+#import "DBFILEPROPERTIESPropertyFieldTemplate.h"
+#import "DBFILEPROPERTIESPropertyGroup.h"
+#import "DBFILEPROPERTIESPropertyGroupTemplate.h"
+#import "DBFILEPROPERTIESRemovePropertiesError.h"
+#import "DBFILEPROPERTIESTemplateError.h"
+#import "DBFILEPROPERTIESUpdatePropertiesError.h"
 #import "DBFILESAlphaGetMetadataError.h"
+#import "DBFILESCreateFolderBatchError.h"
+#import "DBFILESCreateFolderBatchJobStatus.h"
+#import "DBFILESCreateFolderBatchLaunch.h"
+#import "DBFILESCreateFolderBatchResult.h"
 #import "DBFILESCreateFolderError.h"
+#import "DBFILESCreateFolderResult.h"
 #import "DBFILESDeleteBatchError.h"
 #import "DBFILESDeleteBatchJobStatus.h"
 #import "DBFILESDeleteBatchLaunch.h"
 #import "DBFILESDeleteBatchResult.h"
 #import "DBFILESDeleteError.h"
+#import "DBFILESDeleteResult.h"
 #import "DBFILESDeletedMetadata.h"
 #import "DBFILESDownloadError.h"
+#import "DBFILESDownloadZipError.h"
+#import "DBFILESDownloadZipResult.h"
 #import "DBFILESFileMetadata.h"
+#import "DBFILESFileOpsResult.h"
 #import "DBFILESFileSharingInfo.h"
 #import "DBFILESFolderMetadata.h"
 #import "DBFILESFolderSharingInfo.h"
@@ -27,7 +48,10 @@
 #import "DBFILESGetMetadataError.h"
 #import "DBFILESGetTemporaryLinkError.h"
 #import "DBFILESGetTemporaryLinkResult.h"
-#import "DBFILESInvalidPropertyGroupError.h"
+#import "DBFILESGetTemporaryUploadLinkResult.h"
+#import "DBFILESGetThumbnailBatchError.h"
+#import "DBFILESGetThumbnailBatchResult.h"
+#import "DBFILESGetThumbnailBatchResultEntry.h"
 #import "DBFILESListFolderContinueError.h"
 #import "DBFILESListFolderError.h"
 #import "DBFILESListFolderGetLatestCursorResult.h"
@@ -36,18 +60,19 @@
 #import "DBFILESListFolderResult.h"
 #import "DBFILESListRevisionsError.h"
 #import "DBFILESListRevisionsResult.h"
-#import "DBFILESLookUpPropertiesError.h"
 #import "DBFILESLookupError.h"
 #import "DBFILESMediaInfo.h"
 #import "DBFILESMetadata.h"
 #import "DBFILESPreviewError.h"
-#import "DBFILESPropertiesError.h"
 #import "DBFILESRelocationBatchError.h"
 #import "DBFILESRelocationBatchJobStatus.h"
 #import "DBFILESRelocationBatchLaunch.h"
 #import "DBFILESRelocationBatchResult.h"
+#import "DBFILESRelocationBatchV2JobStatus.h"
+#import "DBFILESRelocationBatchV2Launch.h"
+#import "DBFILESRelocationBatchV2Result.h"
 #import "DBFILESRelocationError.h"
-#import "DBFILESRemovePropertiesError.h"
+#import "DBFILESRelocationResult.h"
 #import "DBFILESRestoreError.h"
 #import "DBFILESSaveCopyReferenceError.h"
 #import "DBFILESSaveCopyReferenceResult.h"
@@ -57,8 +82,8 @@
 #import "DBFILESSearchError.h"
 #import "DBFILESSearchMatch.h"
 #import "DBFILESSearchResult.h"
+#import "DBFILESSymlinkInfo.h"
 #import "DBFILESThumbnailError.h"
-#import "DBFILESUpdatePropertiesError.h"
 #import "DBFILESUploadError.h"
 #import "DBFILESUploadErrorWithProperties.h"
 #import "DBFILESUploadSessionFinishBatchJobStatus.h"
@@ -71,12 +96,6 @@
 #import "DBFILESUploadWriteFailed.h"
 #import "DBFILESUserAuthRoutes.h"
 #import "DBFILESWriteError.h"
-#import "DBPROPERTIESGetPropertyTemplateResult.h"
-#import "DBPROPERTIESListPropertyTemplateIds.h"
-#import "DBPROPERTIESPropertyFieldTemplate.h"
-#import "DBPROPERTIESPropertyGroup.h"
-#import "DBPROPERTIESPropertyGroupTemplate.h"
-#import "DBPROPERTIESPropertyTemplateError.h"
 #import "DBRequestErrors.h"
 #import "DBStoneBase.h"
 
@@ -84,27 +103,40 @@
 
 static DBRoute *DBFILESAlphaGetMetadata;
 static DBRoute *DBFILESAlphaUpload;
+static DBRoute *DBFILESDCopyV2;
 static DBRoute *DBFILESDCopy;
+static DBRoute *DBFILESDCopyBatchV2;
 static DBRoute *DBFILESDCopyBatch;
+static DBRoute *DBFILESDCopyBatchCheckV2;
 static DBRoute *DBFILESDCopyBatchCheck;
 static DBRoute *DBFILESDCopyReferenceGet;
 static DBRoute *DBFILESDCopyReferenceSave;
+static DBRoute *DBFILESCreateFolderV2;
 static DBRoute *DBFILESCreateFolder;
+static DBRoute *DBFILESCreateFolderBatch;
+static DBRoute *DBFILESCreateFolderBatchCheck;
+static DBRoute *DBFILESDelete_V2;
 static DBRoute *DBFILESDelete_;
 static DBRoute *DBFILESDeleteBatch;
 static DBRoute *DBFILESDeleteBatchCheck;
 static DBRoute *DBFILESDownload;
+static DBRoute *DBFILESDownloadZip;
 static DBRoute *DBFILESGetMetadata;
 static DBRoute *DBFILESGetPreview;
 static DBRoute *DBFILESGetTemporaryLink;
+static DBRoute *DBFILESGetTemporaryUploadLink;
 static DBRoute *DBFILESGetThumbnail;
+static DBRoute *DBFILESGetThumbnailBatch;
 static DBRoute *DBFILESListFolder;
 static DBRoute *DBFILESListFolderContinue;
 static DBRoute *DBFILESListFolderGetLatestCursor;
 static DBRoute *DBFILESListFolderLongpoll;
 static DBRoute *DBFILESListRevisions;
+static DBRoute *DBFILESMoveV2;
 static DBRoute *DBFILESMove;
+static DBRoute *DBFILESMoveBatchV2;
 static DBRoute *DBFILESMoveBatch;
+static DBRoute *DBFILESMoveBatchCheckV2;
 static DBRoute *DBFILESMoveBatchCheck;
 static DBRoute *DBFILESPermanentlyDelete;
 static DBRoute *DBFILESPropertiesAdd;
@@ -118,8 +150,8 @@ static DBRoute *DBFILESSaveUrl;
 static DBRoute *DBFILESSaveUrlCheckJobStatus;
 static DBRoute *DBFILESSearch;
 static DBRoute *DBFILESUpload;
-static DBRoute *DBFILESUploadSessionAppend;
 static DBRoute *DBFILESUploadSessionAppendV2;
+static DBRoute *DBFILESUploadSessionAppend;
 static DBRoute *DBFILESUploadSessionFinish;
 static DBRoute *DBFILESUploadSessionFinishBatch;
 static DBRoute *DBFILESUploadSessionFinishBatchCheck;
@@ -129,7 +161,7 @@ static DBRoute *DBFILESUploadSessionStart;
   if (!DBFILESAlphaGetMetadata) {
     DBFILESAlphaGetMetadata = [[DBRoute alloc] init:@"alpha/get_metadata"
                                          namespace_:@"files"
-                                         deprecated:@NO
+                                         deprecated:@YES
                                          resultType:[DBFILESMetadata class]
                                           errorType:[DBFILESAlphaGetMetadataError class]
                                               attrs:@{
@@ -137,8 +169,8 @@ static DBRoute *DBFILESUploadSessionStart;
                                                 @"host" : @"api",
                                                 @"style" : @"rpc"
                                               }
-                                   arraySerialBlock:nil
-                                 arrayDeserialBlock:nil];
+                              dataStructSerialBlock:nil
+                            dataStructDeserialBlock:nil];
   }
   return DBFILESAlphaGetMetadata;
 }
@@ -147,7 +179,7 @@ static DBRoute *DBFILESUploadSessionStart;
   if (!DBFILESAlphaUpload) {
     DBFILESAlphaUpload = [[DBRoute alloc] init:@"alpha/upload"
                                     namespace_:@"files"
-                                    deprecated:@NO
+                                    deprecated:@YES
                                     resultType:[DBFILESFileMetadata class]
                                      errorType:[DBFILESUploadErrorWithProperties class]
                                          attrs:@{
@@ -155,17 +187,35 @@ static DBRoute *DBFILESUploadSessionStart;
                                            @"host" : @"content",
                                            @"style" : @"upload"
                                          }
-                              arraySerialBlock:nil
-                            arrayDeserialBlock:nil];
+                         dataStructSerialBlock:nil
+                       dataStructDeserialBlock:nil];
   }
   return DBFILESAlphaUpload;
+}
+
++ (DBRoute *)DBFILESDCopyV2 {
+  if (!DBFILESDCopyV2) {
+    DBFILESDCopyV2 = [[DBRoute alloc] init:@"copy_v2"
+                                namespace_:@"files"
+                                deprecated:@NO
+                                resultType:[DBFILESRelocationResult class]
+                                 errorType:[DBFILESRelocationError class]
+                                     attrs:@{
+                                       @"auth" : @"user",
+                                       @"host" : @"api",
+                                       @"style" : @"rpc"
+                                     }
+                     dataStructSerialBlock:nil
+                   dataStructDeserialBlock:nil];
+  }
+  return DBFILESDCopyV2;
 }
 
 + (DBRoute *)DBFILESDCopy {
   if (!DBFILESDCopy) {
     DBFILESDCopy = [[DBRoute alloc] init:@"copy"
                               namespace_:@"files"
-                              deprecated:@NO
+                              deprecated:@YES
                               resultType:[DBFILESMetadata class]
                                errorType:[DBFILESRelocationError class]
                                    attrs:@{
@@ -173,17 +223,35 @@ static DBRoute *DBFILESUploadSessionStart;
                                      @"host" : @"api",
                                      @"style" : @"rpc"
                                    }
-                        arraySerialBlock:nil
-                      arrayDeserialBlock:nil];
+                   dataStructSerialBlock:nil
+                 dataStructDeserialBlock:nil];
   }
   return DBFILESDCopy;
+}
+
++ (DBRoute *)DBFILESDCopyBatchV2 {
+  if (!DBFILESDCopyBatchV2) {
+    DBFILESDCopyBatchV2 = [[DBRoute alloc] init:@"copy_batch_v2"
+                                     namespace_:@"files"
+                                     deprecated:@NO
+                                     resultType:[DBFILESRelocationBatchV2Launch class]
+                                      errorType:nil
+                                          attrs:@{
+                                            @"auth" : @"user",
+                                            @"host" : @"api",
+                                            @"style" : @"rpc"
+                                          }
+                          dataStructSerialBlock:nil
+                        dataStructDeserialBlock:nil];
+  }
+  return DBFILESDCopyBatchV2;
 }
 
 + (DBRoute *)DBFILESDCopyBatch {
   if (!DBFILESDCopyBatch) {
     DBFILESDCopyBatch = [[DBRoute alloc] init:@"copy_batch"
                                    namespace_:@"files"
-                                   deprecated:@NO
+                                   deprecated:@YES
                                    resultType:[DBFILESRelocationBatchLaunch class]
                                     errorType:nil
                                         attrs:@{
@@ -191,17 +259,35 @@ static DBRoute *DBFILESUploadSessionStart;
                                           @"host" : @"api",
                                           @"style" : @"rpc"
                                         }
-                             arraySerialBlock:nil
-                           arrayDeserialBlock:nil];
+                        dataStructSerialBlock:nil
+                      dataStructDeserialBlock:nil];
   }
   return DBFILESDCopyBatch;
+}
+
++ (DBRoute *)DBFILESDCopyBatchCheckV2 {
+  if (!DBFILESDCopyBatchCheckV2) {
+    DBFILESDCopyBatchCheckV2 = [[DBRoute alloc] init:@"copy_batch/check_v2"
+                                          namespace_:@"files"
+                                          deprecated:@NO
+                                          resultType:[DBFILESRelocationBatchV2JobStatus class]
+                                           errorType:[DBASYNCPollError class]
+                                               attrs:@{
+                                                 @"auth" : @"user",
+                                                 @"host" : @"api",
+                                                 @"style" : @"rpc"
+                                               }
+                               dataStructSerialBlock:nil
+                             dataStructDeserialBlock:nil];
+  }
+  return DBFILESDCopyBatchCheckV2;
 }
 
 + (DBRoute *)DBFILESDCopyBatchCheck {
   if (!DBFILESDCopyBatchCheck) {
     DBFILESDCopyBatchCheck = [[DBRoute alloc] init:@"copy_batch/check"
                                         namespace_:@"files"
-                                        deprecated:@NO
+                                        deprecated:@YES
                                         resultType:[DBFILESRelocationBatchJobStatus class]
                                          errorType:[DBASYNCPollError class]
                                              attrs:@{
@@ -209,8 +295,8 @@ static DBRoute *DBFILESUploadSessionStart;
                                                @"host" : @"api",
                                                @"style" : @"rpc"
                                              }
-                                  arraySerialBlock:nil
-                                arrayDeserialBlock:nil];
+                             dataStructSerialBlock:nil
+                           dataStructDeserialBlock:nil];
   }
   return DBFILESDCopyBatchCheck;
 }
@@ -227,8 +313,8 @@ static DBRoute *DBFILESUploadSessionStart;
                                                  @"host" : @"api",
                                                  @"style" : @"rpc"
                                                }
-                                    arraySerialBlock:nil
-                                  arrayDeserialBlock:nil];
+                               dataStructSerialBlock:nil
+                             dataStructDeserialBlock:nil];
   }
   return DBFILESDCopyReferenceGet;
 }
@@ -245,17 +331,35 @@ static DBRoute *DBFILESUploadSessionStart;
                                                   @"host" : @"api",
                                                   @"style" : @"rpc"
                                                 }
-                                     arraySerialBlock:nil
-                                   arrayDeserialBlock:nil];
+                                dataStructSerialBlock:nil
+                              dataStructDeserialBlock:nil];
   }
   return DBFILESDCopyReferenceSave;
+}
+
++ (DBRoute *)DBFILESCreateFolderV2 {
+  if (!DBFILESCreateFolderV2) {
+    DBFILESCreateFolderV2 = [[DBRoute alloc] init:@"create_folder_v2"
+                                       namespace_:@"files"
+                                       deprecated:@NO
+                                       resultType:[DBFILESCreateFolderResult class]
+                                        errorType:[DBFILESCreateFolderError class]
+                                            attrs:@{
+                                              @"auth" : @"user",
+                                              @"host" : @"api",
+                                              @"style" : @"rpc"
+                                            }
+                            dataStructSerialBlock:nil
+                          dataStructDeserialBlock:nil];
+  }
+  return DBFILESCreateFolderV2;
 }
 
 + (DBRoute *)DBFILESCreateFolder {
   if (!DBFILESCreateFolder) {
     DBFILESCreateFolder = [[DBRoute alloc] init:@"create_folder"
                                      namespace_:@"files"
-                                     deprecated:@NO
+                                     deprecated:@YES
                                      resultType:[DBFILESFolderMetadata class]
                                       errorType:[DBFILESCreateFolderError class]
                                           attrs:@{
@@ -263,17 +367,71 @@ static DBRoute *DBFILESUploadSessionStart;
                                             @"host" : @"api",
                                             @"style" : @"rpc"
                                           }
-                               arraySerialBlock:nil
-                             arrayDeserialBlock:nil];
+                          dataStructSerialBlock:nil
+                        dataStructDeserialBlock:nil];
   }
   return DBFILESCreateFolder;
+}
+
++ (DBRoute *)DBFILESCreateFolderBatch {
+  if (!DBFILESCreateFolderBatch) {
+    DBFILESCreateFolderBatch = [[DBRoute alloc] init:@"create_folder_batch"
+                                          namespace_:@"files"
+                                          deprecated:@NO
+                                          resultType:[DBFILESCreateFolderBatchLaunch class]
+                                           errorType:nil
+                                               attrs:@{
+                                                 @"auth" : @"user",
+                                                 @"host" : @"api",
+                                                 @"style" : @"rpc"
+                                               }
+                               dataStructSerialBlock:nil
+                             dataStructDeserialBlock:nil];
+  }
+  return DBFILESCreateFolderBatch;
+}
+
++ (DBRoute *)DBFILESCreateFolderBatchCheck {
+  if (!DBFILESCreateFolderBatchCheck) {
+    DBFILESCreateFolderBatchCheck = [[DBRoute alloc] init:@"create_folder_batch/check"
+                                               namespace_:@"files"
+                                               deprecated:@NO
+                                               resultType:[DBFILESCreateFolderBatchJobStatus class]
+                                                errorType:[DBASYNCPollError class]
+                                                    attrs:@{
+                                                      @"auth" : @"user",
+                                                      @"host" : @"api",
+                                                      @"style" : @"rpc"
+                                                    }
+                                    dataStructSerialBlock:nil
+                                  dataStructDeserialBlock:nil];
+  }
+  return DBFILESCreateFolderBatchCheck;
+}
+
++ (DBRoute *)DBFILESDelete_V2 {
+  if (!DBFILESDelete_V2) {
+    DBFILESDelete_V2 = [[DBRoute alloc] init:@"delete_v2"
+                                  namespace_:@"files"
+                                  deprecated:@NO
+                                  resultType:[DBFILESDeleteResult class]
+                                   errorType:[DBFILESDeleteError class]
+                                       attrs:@{
+                                         @"auth" : @"user",
+                                         @"host" : @"api",
+                                         @"style" : @"rpc"
+                                       }
+                       dataStructSerialBlock:nil
+                     dataStructDeserialBlock:nil];
+  }
+  return DBFILESDelete_V2;
 }
 
 + (DBRoute *)DBFILESDelete_ {
   if (!DBFILESDelete_) {
     DBFILESDelete_ = [[DBRoute alloc] init:@"delete"
                                 namespace_:@"files"
-                                deprecated:@NO
+                                deprecated:@YES
                                 resultType:[DBFILESMetadata class]
                                  errorType:[DBFILESDeleteError class]
                                      attrs:@{
@@ -281,8 +439,8 @@ static DBRoute *DBFILESUploadSessionStart;
                                        @"host" : @"api",
                                        @"style" : @"rpc"
                                      }
-                          arraySerialBlock:nil
-                        arrayDeserialBlock:nil];
+                     dataStructSerialBlock:nil
+                   dataStructDeserialBlock:nil];
   }
   return DBFILESDelete_;
 }
@@ -299,8 +457,8 @@ static DBRoute *DBFILESUploadSessionStart;
                                            @"host" : @"api",
                                            @"style" : @"rpc"
                                          }
-                              arraySerialBlock:nil
-                            arrayDeserialBlock:nil];
+                         dataStructSerialBlock:nil
+                       dataStructDeserialBlock:nil];
   }
   return DBFILESDeleteBatch;
 }
@@ -317,8 +475,8 @@ static DBRoute *DBFILESUploadSessionStart;
                                                 @"host" : @"api",
                                                 @"style" : @"rpc"
                                               }
-                                   arraySerialBlock:nil
-                                 arrayDeserialBlock:nil];
+                              dataStructSerialBlock:nil
+                            dataStructDeserialBlock:nil];
   }
   return DBFILESDeleteBatchCheck;
 }
@@ -335,10 +493,28 @@ static DBRoute *DBFILESUploadSessionStart;
                                         @"host" : @"content",
                                         @"style" : @"download"
                                       }
-                           arraySerialBlock:nil
-                         arrayDeserialBlock:nil];
+                      dataStructSerialBlock:nil
+                    dataStructDeserialBlock:nil];
   }
   return DBFILESDownload;
+}
+
++ (DBRoute *)DBFILESDownloadZip {
+  if (!DBFILESDownloadZip) {
+    DBFILESDownloadZip = [[DBRoute alloc] init:@"download_zip"
+                                    namespace_:@"files"
+                                    deprecated:@NO
+                                    resultType:[DBFILESDownloadZipResult class]
+                                     errorType:[DBFILESDownloadZipError class]
+                                         attrs:@{
+                                           @"auth" : @"user",
+                                           @"host" : @"content",
+                                           @"style" : @"download"
+                                         }
+                         dataStructSerialBlock:nil
+                       dataStructDeserialBlock:nil];
+  }
+  return DBFILESDownloadZip;
 }
 
 + (DBRoute *)DBFILESGetMetadata {
@@ -353,8 +529,8 @@ static DBRoute *DBFILESUploadSessionStart;
                                            @"host" : @"api",
                                            @"style" : @"rpc"
                                          }
-                              arraySerialBlock:nil
-                            arrayDeserialBlock:nil];
+                         dataStructSerialBlock:nil
+                       dataStructDeserialBlock:nil];
   }
   return DBFILESGetMetadata;
 }
@@ -371,8 +547,8 @@ static DBRoute *DBFILESUploadSessionStart;
                                           @"host" : @"content",
                                           @"style" : @"download"
                                         }
-                             arraySerialBlock:nil
-                           arrayDeserialBlock:nil];
+                        dataStructSerialBlock:nil
+                      dataStructDeserialBlock:nil];
   }
   return DBFILESGetPreview;
 }
@@ -389,10 +565,28 @@ static DBRoute *DBFILESUploadSessionStart;
                                                 @"host" : @"api",
                                                 @"style" : @"rpc"
                                               }
-                                   arraySerialBlock:nil
-                                 arrayDeserialBlock:nil];
+                              dataStructSerialBlock:nil
+                            dataStructDeserialBlock:nil];
   }
   return DBFILESGetTemporaryLink;
+}
+
++ (DBRoute *)DBFILESGetTemporaryUploadLink {
+  if (!DBFILESGetTemporaryUploadLink) {
+    DBFILESGetTemporaryUploadLink = [[DBRoute alloc] init:@"get_temporary_upload_link"
+                                               namespace_:@"files"
+                                               deprecated:@NO
+                                               resultType:[DBFILESGetTemporaryUploadLinkResult class]
+                                                errorType:nil
+                                                    attrs:@{
+                                                      @"auth" : @"user",
+                                                      @"host" : @"api",
+                                                      @"style" : @"rpc"
+                                                    }
+                                    dataStructSerialBlock:nil
+                                  dataStructDeserialBlock:nil];
+  }
+  return DBFILESGetTemporaryUploadLink;
 }
 
 + (DBRoute *)DBFILESGetThumbnail {
@@ -407,10 +601,28 @@ static DBRoute *DBFILESUploadSessionStart;
                                             @"host" : @"content",
                                             @"style" : @"download"
                                           }
-                               arraySerialBlock:nil
-                             arrayDeserialBlock:nil];
+                          dataStructSerialBlock:nil
+                        dataStructDeserialBlock:nil];
   }
   return DBFILESGetThumbnail;
+}
+
++ (DBRoute *)DBFILESGetThumbnailBatch {
+  if (!DBFILESGetThumbnailBatch) {
+    DBFILESGetThumbnailBatch = [[DBRoute alloc] init:@"get_thumbnail_batch"
+                                          namespace_:@"files"
+                                          deprecated:@NO
+                                          resultType:[DBFILESGetThumbnailBatchResult class]
+                                           errorType:[DBFILESGetThumbnailBatchError class]
+                                               attrs:@{
+                                                 @"auth" : @"user",
+                                                 @"host" : @"content",
+                                                 @"style" : @"rpc"
+                                               }
+                               dataStructSerialBlock:nil
+                             dataStructDeserialBlock:nil];
+  }
+  return DBFILESGetThumbnailBatch;
 }
 
 + (DBRoute *)DBFILESListFolder {
@@ -425,8 +637,8 @@ static DBRoute *DBFILESUploadSessionStart;
                                           @"host" : @"api",
                                           @"style" : @"rpc"
                                         }
-                             arraySerialBlock:nil
-                           arrayDeserialBlock:nil];
+                        dataStructSerialBlock:nil
+                      dataStructDeserialBlock:nil];
   }
   return DBFILESListFolder;
 }
@@ -443,8 +655,8 @@ static DBRoute *DBFILESUploadSessionStart;
                                                   @"host" : @"api",
                                                   @"style" : @"rpc"
                                                 }
-                                     arraySerialBlock:nil
-                                   arrayDeserialBlock:nil];
+                                dataStructSerialBlock:nil
+                              dataStructDeserialBlock:nil];
   }
   return DBFILESListFolderContinue;
 }
@@ -461,8 +673,8 @@ static DBRoute *DBFILESUploadSessionStart;
                                                          @"host" : @"api",
                                                          @"style" : @"rpc"
                                                        }
-                                            arraySerialBlock:nil
-                                          arrayDeserialBlock:nil];
+                                       dataStructSerialBlock:nil
+                                     dataStructDeserialBlock:nil];
   }
   return DBFILESListFolderGetLatestCursor;
 }
@@ -479,8 +691,8 @@ static DBRoute *DBFILESUploadSessionStart;
                                                   @"host" : @"notify",
                                                   @"style" : @"rpc"
                                                 }
-                                     arraySerialBlock:nil
-                                   arrayDeserialBlock:nil];
+                                dataStructSerialBlock:nil
+                              dataStructDeserialBlock:nil];
   }
   return DBFILESListFolderLongpoll;
 }
@@ -497,17 +709,35 @@ static DBRoute *DBFILESUploadSessionStart;
                                              @"host" : @"api",
                                              @"style" : @"rpc"
                                            }
-                                arraySerialBlock:nil
-                              arrayDeserialBlock:nil];
+                           dataStructSerialBlock:nil
+                         dataStructDeserialBlock:nil];
   }
   return DBFILESListRevisions;
+}
+
++ (DBRoute *)DBFILESMoveV2 {
+  if (!DBFILESMoveV2) {
+    DBFILESMoveV2 = [[DBRoute alloc] init:@"move_v2"
+                               namespace_:@"files"
+                               deprecated:@NO
+                               resultType:[DBFILESRelocationResult class]
+                                errorType:[DBFILESRelocationError class]
+                                    attrs:@{
+                                      @"auth" : @"user",
+                                      @"host" : @"api",
+                                      @"style" : @"rpc"
+                                    }
+                    dataStructSerialBlock:nil
+                  dataStructDeserialBlock:nil];
+  }
+  return DBFILESMoveV2;
 }
 
 + (DBRoute *)DBFILESMove {
   if (!DBFILESMove) {
     DBFILESMove = [[DBRoute alloc] init:@"move"
                              namespace_:@"files"
-                             deprecated:@NO
+                             deprecated:@YES
                              resultType:[DBFILESMetadata class]
                               errorType:[DBFILESRelocationError class]
                                   attrs:@{
@@ -515,10 +745,28 @@ static DBRoute *DBFILESUploadSessionStart;
                                     @"host" : @"api",
                                     @"style" : @"rpc"
                                   }
-                       arraySerialBlock:nil
-                     arrayDeserialBlock:nil];
+                  dataStructSerialBlock:nil
+                dataStructDeserialBlock:nil];
   }
   return DBFILESMove;
+}
+
++ (DBRoute *)DBFILESMoveBatchV2 {
+  if (!DBFILESMoveBatchV2) {
+    DBFILESMoveBatchV2 = [[DBRoute alloc] init:@"move_batch_v2"
+                                    namespace_:@"files"
+                                    deprecated:@NO
+                                    resultType:[DBFILESRelocationBatchV2Launch class]
+                                     errorType:nil
+                                         attrs:@{
+                                           @"auth" : @"user",
+                                           @"host" : @"api",
+                                           @"style" : @"rpc"
+                                         }
+                         dataStructSerialBlock:nil
+                       dataStructDeserialBlock:nil];
+  }
+  return DBFILESMoveBatchV2;
 }
 
 + (DBRoute *)DBFILESMoveBatch {
@@ -533,10 +781,28 @@ static DBRoute *DBFILESUploadSessionStart;
                                          @"host" : @"api",
                                          @"style" : @"rpc"
                                        }
-                            arraySerialBlock:nil
-                          arrayDeserialBlock:nil];
+                       dataStructSerialBlock:nil
+                     dataStructDeserialBlock:nil];
   }
   return DBFILESMoveBatch;
+}
+
++ (DBRoute *)DBFILESMoveBatchCheckV2 {
+  if (!DBFILESMoveBatchCheckV2) {
+    DBFILESMoveBatchCheckV2 = [[DBRoute alloc] init:@"move_batch/check_v2"
+                                         namespace_:@"files"
+                                         deprecated:@NO
+                                         resultType:[DBFILESRelocationBatchV2JobStatus class]
+                                          errorType:[DBASYNCPollError class]
+                                              attrs:@{
+                                                @"auth" : @"user",
+                                                @"host" : @"api",
+                                                @"style" : @"rpc"
+                                              }
+                              dataStructSerialBlock:nil
+                            dataStructDeserialBlock:nil];
+  }
+  return DBFILESMoveBatchCheckV2;
 }
 
 + (DBRoute *)DBFILESMoveBatchCheck {
@@ -551,8 +817,8 @@ static DBRoute *DBFILESUploadSessionStart;
                                               @"host" : @"api",
                                               @"style" : @"rpc"
                                             }
-                                 arraySerialBlock:nil
-                               arrayDeserialBlock:nil];
+                            dataStructSerialBlock:nil
+                          dataStructDeserialBlock:nil];
   }
   return DBFILESMoveBatchCheck;
 }
@@ -569,8 +835,8 @@ static DBRoute *DBFILESUploadSessionStart;
                                                  @"host" : @"api",
                                                  @"style" : @"rpc"
                                                }
-                                    arraySerialBlock:nil
-                                  arrayDeserialBlock:nil];
+                               dataStructSerialBlock:nil
+                             dataStructDeserialBlock:nil];
   }
   return DBFILESPermanentlyDelete;
 }
@@ -579,16 +845,16 @@ static DBRoute *DBFILESUploadSessionStart;
   if (!DBFILESPropertiesAdd) {
     DBFILESPropertiesAdd = [[DBRoute alloc] init:@"properties/add"
                                       namespace_:@"files"
-                                      deprecated:@NO
+                                      deprecated:@YES
                                       resultType:nil
-                                       errorType:[DBFILESAddPropertiesError class]
+                                       errorType:[DBFILEPROPERTIESAddPropertiesError class]
                                            attrs:@{
                                              @"auth" : @"user",
                                              @"host" : @"api",
                                              @"style" : @"rpc"
                                            }
-                                arraySerialBlock:nil
-                              arrayDeserialBlock:nil];
+                           dataStructSerialBlock:nil
+                         dataStructDeserialBlock:nil];
   }
   return DBFILESPropertiesAdd;
 }
@@ -597,16 +863,16 @@ static DBRoute *DBFILESUploadSessionStart;
   if (!DBFILESPropertiesOverwrite) {
     DBFILESPropertiesOverwrite = [[DBRoute alloc] init:@"properties/overwrite"
                                             namespace_:@"files"
-                                            deprecated:@NO
+                                            deprecated:@YES
                                             resultType:nil
-                                             errorType:[DBFILESInvalidPropertyGroupError class]
+                                             errorType:[DBFILEPROPERTIESInvalidPropertyGroupError class]
                                                  attrs:@{
                                                    @"auth" : @"user",
                                                    @"host" : @"api",
                                                    @"style" : @"rpc"
                                                  }
-                                      arraySerialBlock:nil
-                                    arrayDeserialBlock:nil];
+                                 dataStructSerialBlock:nil
+                               dataStructDeserialBlock:nil];
   }
   return DBFILESPropertiesOverwrite;
 }
@@ -615,16 +881,16 @@ static DBRoute *DBFILESUploadSessionStart;
   if (!DBFILESPropertiesRemove) {
     DBFILESPropertiesRemove = [[DBRoute alloc] init:@"properties/remove"
                                          namespace_:@"files"
-                                         deprecated:@NO
+                                         deprecated:@YES
                                          resultType:nil
-                                          errorType:[DBFILESRemovePropertiesError class]
+                                          errorType:[DBFILEPROPERTIESRemovePropertiesError class]
                                               attrs:@{
                                                 @"auth" : @"user",
                                                 @"host" : @"api",
                                                 @"style" : @"rpc"
                                               }
-                                   arraySerialBlock:nil
-                                 arrayDeserialBlock:nil];
+                              dataStructSerialBlock:nil
+                            dataStructDeserialBlock:nil];
   }
   return DBFILESPropertiesRemove;
 }
@@ -633,16 +899,16 @@ static DBRoute *DBFILESUploadSessionStart;
   if (!DBFILESPropertiesTemplateGet) {
     DBFILESPropertiesTemplateGet = [[DBRoute alloc] init:@"properties/template/get"
                                               namespace_:@"files"
-                                              deprecated:@NO
-                                              resultType:[DBPROPERTIESGetPropertyTemplateResult class]
-                                               errorType:[DBPROPERTIESPropertyTemplateError class]
+                                              deprecated:@YES
+                                              resultType:[DBFILEPROPERTIESGetTemplateResult class]
+                                               errorType:[DBFILEPROPERTIESTemplateError class]
                                                    attrs:@{
                                                      @"auth" : @"user",
                                                      @"host" : @"api",
                                                      @"style" : @"rpc"
                                                    }
-                                        arraySerialBlock:nil
-                                      arrayDeserialBlock:nil];
+                                   dataStructSerialBlock:nil
+                                 dataStructDeserialBlock:nil];
   }
   return DBFILESPropertiesTemplateGet;
 }
@@ -651,16 +917,16 @@ static DBRoute *DBFILESUploadSessionStart;
   if (!DBFILESPropertiesTemplateList) {
     DBFILESPropertiesTemplateList = [[DBRoute alloc] init:@"properties/template/list"
                                                namespace_:@"files"
-                                               deprecated:@NO
-                                               resultType:[DBPROPERTIESListPropertyTemplateIds class]
-                                                errorType:[DBPROPERTIESPropertyTemplateError class]
+                                               deprecated:@YES
+                                               resultType:[DBFILEPROPERTIESListTemplateResult class]
+                                                errorType:[DBFILEPROPERTIESTemplateError class]
                                                     attrs:@{
                                                       @"auth" : @"user",
                                                       @"host" : @"api",
                                                       @"style" : @"rpc"
                                                     }
-                                         arraySerialBlock:nil
-                                       arrayDeserialBlock:nil];
+                                    dataStructSerialBlock:nil
+                                  dataStructDeserialBlock:nil];
   }
   return DBFILESPropertiesTemplateList;
 }
@@ -669,16 +935,16 @@ static DBRoute *DBFILESUploadSessionStart;
   if (!DBFILESPropertiesUpdate) {
     DBFILESPropertiesUpdate = [[DBRoute alloc] init:@"properties/update"
                                          namespace_:@"files"
-                                         deprecated:@NO
+                                         deprecated:@YES
                                          resultType:nil
-                                          errorType:[DBFILESUpdatePropertiesError class]
+                                          errorType:[DBFILEPROPERTIESUpdatePropertiesError class]
                                               attrs:@{
                                                 @"auth" : @"user",
                                                 @"host" : @"api",
                                                 @"style" : @"rpc"
                                               }
-                                   arraySerialBlock:nil
-                                 arrayDeserialBlock:nil];
+                              dataStructSerialBlock:nil
+                            dataStructDeserialBlock:nil];
   }
   return DBFILESPropertiesUpdate;
 }
@@ -695,8 +961,8 @@ static DBRoute *DBFILESUploadSessionStart;
                                        @"host" : @"api",
                                        @"style" : @"rpc"
                                      }
-                          arraySerialBlock:nil
-                        arrayDeserialBlock:nil];
+                     dataStructSerialBlock:nil
+                   dataStructDeserialBlock:nil];
   }
   return DBFILESRestore;
 }
@@ -713,8 +979,8 @@ static DBRoute *DBFILESUploadSessionStart;
                                        @"host" : @"api",
                                        @"style" : @"rpc"
                                      }
-                          arraySerialBlock:nil
-                        arrayDeserialBlock:nil];
+                     dataStructSerialBlock:nil
+                   dataStructDeserialBlock:nil];
   }
   return DBFILESSaveUrl;
 }
@@ -731,8 +997,8 @@ static DBRoute *DBFILESUploadSessionStart;
                                                      @"host" : @"api",
                                                      @"style" : @"rpc"
                                                    }
-                                        arraySerialBlock:nil
-                                      arrayDeserialBlock:nil];
+                                   dataStructSerialBlock:nil
+                                 dataStructDeserialBlock:nil];
   }
   return DBFILESSaveUrlCheckJobStatus;
 }
@@ -749,8 +1015,8 @@ static DBRoute *DBFILESUploadSessionStart;
                                       @"host" : @"api",
                                       @"style" : @"rpc"
                                     }
-                         arraySerialBlock:nil
-                       arrayDeserialBlock:nil];
+                    dataStructSerialBlock:nil
+                  dataStructDeserialBlock:nil];
   }
   return DBFILESSearch;
 }
@@ -767,28 +1033,10 @@ static DBRoute *DBFILESUploadSessionStart;
                                       @"host" : @"content",
                                       @"style" : @"upload"
                                     }
-                         arraySerialBlock:nil
-                       arrayDeserialBlock:nil];
+                    dataStructSerialBlock:nil
+                  dataStructDeserialBlock:nil];
   }
   return DBFILESUpload;
-}
-
-+ (DBRoute *)DBFILESUploadSessionAppend {
-  if (!DBFILESUploadSessionAppend) {
-    DBFILESUploadSessionAppend = [[DBRoute alloc] init:@"upload_session/append"
-                                            namespace_:@"files"
-                                            deprecated:@YES
-                                            resultType:nil
-                                             errorType:[DBFILESUploadSessionLookupError class]
-                                                 attrs:@{
-                                                   @"auth" : @"user",
-                                                   @"host" : @"content",
-                                                   @"style" : @"upload"
-                                                 }
-                                      arraySerialBlock:nil
-                                    arrayDeserialBlock:nil];
-  }
-  return DBFILESUploadSessionAppend;
 }
 
 + (DBRoute *)DBFILESUploadSessionAppendV2 {
@@ -803,10 +1051,28 @@ static DBRoute *DBFILESUploadSessionStart;
                                                      @"host" : @"content",
                                                      @"style" : @"upload"
                                                    }
-                                        arraySerialBlock:nil
-                                      arrayDeserialBlock:nil];
+                                   dataStructSerialBlock:nil
+                                 dataStructDeserialBlock:nil];
   }
   return DBFILESUploadSessionAppendV2;
+}
+
++ (DBRoute *)DBFILESUploadSessionAppend {
+  if (!DBFILESUploadSessionAppend) {
+    DBFILESUploadSessionAppend = [[DBRoute alloc] init:@"upload_session/append"
+                                            namespace_:@"files"
+                                            deprecated:@YES
+                                            resultType:nil
+                                             errorType:[DBFILESUploadSessionLookupError class]
+                                                 attrs:@{
+                                                   @"auth" : @"user",
+                                                   @"host" : @"content",
+                                                   @"style" : @"upload"
+                                                 }
+                                 dataStructSerialBlock:nil
+                               dataStructDeserialBlock:nil];
+  }
+  return DBFILESUploadSessionAppend;
 }
 
 + (DBRoute *)DBFILESUploadSessionFinish {
@@ -821,8 +1087,8 @@ static DBRoute *DBFILESUploadSessionStart;
                                                    @"host" : @"content",
                                                    @"style" : @"upload"
                                                  }
-                                      arraySerialBlock:nil
-                                    arrayDeserialBlock:nil];
+                                 dataStructSerialBlock:nil
+                               dataStructDeserialBlock:nil];
   }
   return DBFILESUploadSessionFinish;
 }
@@ -839,8 +1105,8 @@ static DBRoute *DBFILESUploadSessionStart;
                                                         @"host" : @"api",
                                                         @"style" : @"rpc"
                                                       }
-                                           arraySerialBlock:nil
-                                         arrayDeserialBlock:nil];
+                                      dataStructSerialBlock:nil
+                                    dataStructDeserialBlock:nil];
   }
   return DBFILESUploadSessionFinishBatch;
 }
@@ -857,8 +1123,8 @@ static DBRoute *DBFILESUploadSessionStart;
                                                              @"host" : @"api",
                                                              @"style" : @"rpc"
                                                            }
-                                                arraySerialBlock:nil
-                                              arrayDeserialBlock:nil];
+                                           dataStructSerialBlock:nil
+                                         dataStructDeserialBlock:nil];
   }
   return DBFILESUploadSessionFinishBatchCheck;
 }
@@ -875,8 +1141,8 @@ static DBRoute *DBFILESUploadSessionStart;
                                                   @"host" : @"content",
                                                   @"style" : @"upload"
                                                 }
-                                     arraySerialBlock:nil
-                                   arrayDeserialBlock:nil];
+                                dataStructSerialBlock:nil
+                              dataStructDeserialBlock:nil];
   }
   return DBFILESUploadSessionStart;
 }

@@ -17,8 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `AccountCaptureRelinquishAccountDetails` struct.
 ///
-/// Account captured user relinquished their account by changing the email
-/// address associated with it.
+/// Account-captured user changed account email to personal email.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -28,19 +27,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Instance fields
 
-/// Domain names.
-@property (nonatomic, readonly) NSArray<NSString *> *domainName;
+/// Domain name.
+@property (nonatomic, readonly, copy) NSString *domainName;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param domainName Domain names.
+/// @param domainName Domain name.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithDomainName:(NSArray<NSString *> *)domainName;
+- (instancetype)initWithDomainName:(NSString *)domainName;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -63,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGAccountCaptureRelinquishAccountDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGAccountCaptureRelinquishAccountDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGAccountCaptureRelinquishAccountDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGAccountCaptureRelinquishAccountDetails` instances.
@@ -74,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the
 /// `DBTEAMLOGAccountCaptureRelinquishAccountDetails` object.
 ///
-+ (DBTEAMLOGAccountCaptureRelinquishAccountDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGAccountCaptureRelinquishAccountDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

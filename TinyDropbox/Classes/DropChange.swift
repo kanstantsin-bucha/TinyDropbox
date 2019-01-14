@@ -19,22 +19,10 @@ public enum DropChangeAction {
 
 private func actionConverted(from tbChageAction: TBDropboxChangeAction) -> DropChangeAction {
     switch tbChageAction {
-    
-    case .undefined:
-        return .undefined
-        
-    case .delete:
-        return .delete
-        
-    case .updateFile:
-        return .updateFile
-        
-    case .updateFolder:
-        return .updateFolder
-        
-//    default:
-//        print("try to convert unsupported TBDropboxChangeAction type \(tbChageAction)")
-//        return .undefined
+    case .undefined: return .undefined
+    case .delete: return .delete
+    case .updateFile: return .updateFile
+    case .updateFolder: return .updateFolder
     }
 }
 
@@ -44,13 +32,13 @@ open class DropChange {
     open var action: DropChangeAction = .undefined
     
     open func localFileURL(usingBaseURL baseURL: URL) -> URL? {
-        let filePath = path.characters.count > 0 ? path.substring(from: path.startIndex) : path
-        let result = baseURL.appendingPathComponent(filePath)
+        let result = baseURL.appendingPathComponent(path)
         
         return result;
     }
     
-    internal init(usingPath dropboxPath: String, tbAction: TBDropboxChangeAction) {
+    internal init(usingPath dropboxPath: String,
+                  tbAction: TBDropboxChangeAction) {
         path = dropboxPath
         action = actionConverted(from: tbAction);
     }

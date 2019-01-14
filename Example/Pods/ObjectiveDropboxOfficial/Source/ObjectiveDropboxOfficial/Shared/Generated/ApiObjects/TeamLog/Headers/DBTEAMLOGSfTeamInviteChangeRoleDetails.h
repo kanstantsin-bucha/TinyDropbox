@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `SfTeamInviteChangeRoleDetails` struct.
 ///
-/// Changed a team member's role in a shared folder.
+/// Changed team member's role in shared folder.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -27,14 +27,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Instance fields
 
-/// Target asset index.
-@property (nonatomic, readonly) NSNumber *targetIndex;
+/// Target asset position in the Assets list.
+@property (nonatomic, readonly) NSNumber *targetAssetIndex;
 
 /// Original shared folder name.
 @property (nonatomic, readonly, copy) NSString *originalFolderName;
 
-/// Sharing permission. Might be missing due to historical data gap.
-@property (nonatomic, readonly, copy, nullable) NSString *sharingPermission;
+/// New sharing permission. Might be missing due to historical data gap.
+@property (nonatomic, readonly, copy, nullable) NSString *dNewSharingPermission;
 
 /// Previous sharing permission. Might be missing due to historical data gap.
 @property (nonatomic, readonly, copy, nullable) NSString *previousSharingPermission;
@@ -44,30 +44,30 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param targetIndex Target asset index.
+/// @param targetAssetIndex Target asset position in the Assets list.
 /// @param originalFolderName Original shared folder name.
-/// @param sharingPermission Sharing permission. Might be missing due to
+/// @param dNewSharingPermission New sharing permission. Might be missing due to
 /// historical data gap.
 /// @param previousSharingPermission Previous sharing permission. Might be
 /// missing due to historical data gap.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithTargetIndex:(NSNumber *)targetIndex
-                 originalFolderName:(NSString *)originalFolderName
-                  sharingPermission:(nullable NSString *)sharingPermission
-          previousSharingPermission:(nullable NSString *)previousSharingPermission;
+- (instancetype)initWithTargetAssetIndex:(NSNumber *)targetAssetIndex
+                      originalFolderName:(NSString *)originalFolderName
+                   dNewSharingPermission:(nullable NSString *)dNewSharingPermission
+               previousSharingPermission:(nullable NSString *)previousSharingPermission;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
 /// no default value).
 ///
-/// @param targetIndex Target asset index.
+/// @param targetAssetIndex Target asset position in the Assets list.
 /// @param originalFolderName Original shared folder name.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithTargetIndex:(NSNumber *)targetIndex originalFolderName:(NSString *)originalFolderName;
+- (instancetype)initWithTargetAssetIndex:(NSNumber *)targetAssetIndex originalFolderName:(NSString *)originalFolderName;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGSfTeamInviteChangeRoleDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGSfTeamInviteChangeRoleDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGSfTeamInviteChangeRoleDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGSfTeamInviteChangeRoleDetails` instances.
@@ -100,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the `DBTEAMLOGSfTeamInviteChangeRoleDetails`
 /// object.
 ///
-+ (DBTEAMLOGSfTeamInviteChangeRoleDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGSfTeamInviteChangeRoleDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

@@ -1,10 +1,13 @@
 use_frameworks!
 
-target 'TinyDropbox_Example' do
-  pod 'TinyDropbox', :path => '../'
-  pod 'TBDropboxKit'
-  pod 'BuchaSwift'
-# pod 'TBDropboxKit', :path=> '~/repos/,github/TBDropboxKit'
-# pod 'TBLogger', :path=> '~/repos/,github/TBLogger'
-
+abstract_target 'Pod' do
+    
+    pod 'TinyDropbox', :path => '../'
+    
+    target 'TinyDropbox_Example' do
+        platform :ios, '10.0'
+#        target 'TBDropboxKit_Tests' do
+#            inherit! :search_paths
+#        end
+    end
 end

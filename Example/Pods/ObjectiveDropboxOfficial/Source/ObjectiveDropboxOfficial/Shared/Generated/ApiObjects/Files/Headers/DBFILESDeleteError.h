@@ -36,6 +36,13 @@ typedef NS_ENUM(NSInteger, DBFILESDeleteErrorTag) {
   /// (no description).
   DBFILESDeleteErrorPathWrite,
 
+  /// There are too many write operations in user's Dropbox. Please retry this
+  /// request.
+  DBFILESDeleteErrorTooManyWriteOperations,
+
+  /// There are too many files in one request. Please retry with fewer files.
+  DBFILESDeleteErrorTooManyFiles,
+
   /// (no description).
   DBFILESDeleteErrorOther,
 
@@ -73,6 +80,26 @@ typedef NS_ENUM(NSInteger, DBFILESDeleteErrorTag) {
 - (instancetype)initWithPathWrite:(DBFILESWriteError *)pathWrite;
 
 ///
+/// Initializes union class with tag state of "too_many_write_operations".
+///
+/// Description of the "too_many_write_operations" tag state: There are too many
+/// write operations in user's Dropbox. Please retry this request.
+///
+/// @return An initialized instance.
+///
+- (instancetype)initWithTooManyWriteOperations;
+
+///
+/// Initializes union class with tag state of "too_many_files".
+///
+/// Description of the "too_many_files" tag state: There are too many files in
+/// one request. Please retry with fewer files.
+///
+/// @return An initialized instance.
+///
+- (instancetype)initWithTooManyFiles;
+
+///
 /// Initializes union class with tag state of "other".
 ///
 /// @return An initialized instance.
@@ -102,6 +129,22 @@ typedef NS_ENUM(NSInteger, DBFILESDeleteErrorTag) {
 /// @return Whether the union's current tag state has value "path_write".
 ///
 - (BOOL)isPathWrite;
+
+///
+/// Retrieves whether the union's current tag state has value
+/// "too_many_write_operations".
+///
+/// @return Whether the union's current tag state has value
+/// "too_many_write_operations".
+///
+- (BOOL)isTooManyWriteOperations;
+
+///
+/// Retrieves whether the union's current tag state has value "too_many_files".
+///
+/// @return Whether the union's current tag state has value "too_many_files".
+///
+- (BOOL)isTooManyFiles;
 
 ///
 /// Retrieves whether the union's current tag state has value "other".
@@ -134,7 +177,7 @@ typedef NS_ENUM(NSInteger, DBFILESDeleteErrorTag) {
 /// @return A json-compatible dictionary representation of the
 /// `DBFILESDeleteError` API object.
 ///
-+ (NSDictionary *)serialize:(DBFILESDeleteError *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBFILESDeleteError *)instance;
 
 ///
 /// Deserializes `DBFILESDeleteError` instances.
@@ -144,7 +187,7 @@ typedef NS_ENUM(NSInteger, DBFILESDeleteErrorTag) {
 ///
 /// @return An instantiation of the `DBFILESDeleteError` object.
 ///
-+ (DBFILESDeleteError *)deserialize:(NSDictionary *)dict;
++ (DBFILESDeleteError *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

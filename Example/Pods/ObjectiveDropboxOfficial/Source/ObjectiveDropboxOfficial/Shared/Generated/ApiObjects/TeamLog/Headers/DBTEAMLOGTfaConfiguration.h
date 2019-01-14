@@ -17,6 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `TfaConfiguration` union.
 ///
+/// Two factor authentication configuration. Note: the enabled option is
+/// deprecated.
+///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
 /// objects.
@@ -148,7 +151,7 @@ typedef NS_ENUM(NSInteger, DBTEAMLOGTfaConfigurationTag) {
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGTfaConfiguration` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGTfaConfiguration *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGTfaConfiguration *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGTfaConfiguration` instances.
@@ -158,7 +161,7 @@ typedef NS_ENUM(NSInteger, DBTEAMLOGTfaConfigurationTag) {
 ///
 /// @return An instantiation of the `DBTEAMLOGTfaConfiguration` object.
 ///
-+ (DBTEAMLOGTfaConfiguration *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGTfaConfiguration *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

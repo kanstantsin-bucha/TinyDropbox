@@ -9,6 +9,7 @@
 #import "DBStoneBase.h"
 #import "DBTasksImpl.h"
 #import "DBTransportBaseClient+Internal.h"
+#import "DBTransportBaseHostnameConfig.h"
 #import "DBTransportDefaultConfig.h"
 
 @implementation DBTransportDefaultClient {
@@ -34,8 +35,11 @@
     NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
     sessionConfig.timeoutIntervalForRequest = 60.0;
 
-    NSOperationQueue *sessionDelegateQueue = [self urlSessionDelegateQueueWithName:[NSString stringWithFormat:@"%@ NSURLSession delegate queue", NSStringFromClass(self.class)]];
-    _session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:_delegate delegateQueue:sessionDelegateQueue];
+    NSOperationQueue *sessionDelegateQueue =
+        [self urlSessionDelegateQueueWithName:[NSString stringWithFormat:@"%@ NSURLSession delegate queue",
+                                                                         NSStringFromClass(self.class)]];
+    _session =
+        [NSURLSession sessionWithConfiguration:sessionConfig delegate:_delegate delegateQueue:sessionDelegateQueue];
     _forceForegroundSession = transportConfig.forceForegroundSession ? YES : NO;
     if (!_forceForegroundSession) {
       NSString *backgroundId = [NSString stringWithFormat:@"%@.%@", kBackgroundSessionId, [NSUUID UUID].UUIDString];
@@ -45,7 +49,9 @@
         backgroundSessionConfig.sharedContainerIdentifier = transportConfig.sharedContainerIdentifier;
       }
 
-      NSOperationQueue *secondarySessionDelegateQueue = [self urlSessionDelegateQueueWithName:[NSString stringWithFormat:@"%@ Secondary NSURLSession delegate queue", NSStringFromClass(self.class)]];
+      NSOperationQueue *secondarySessionDelegateQueue =
+          [self urlSessionDelegateQueueWithName:[NSString stringWithFormat:@"%@ Secondary NSURLSession delegate queue",
+                                                                           NSStringFromClass(self.class)]];
       _secondarySession = [NSURLSession sessionWithConfiguration:backgroundSessionConfig
                                                         delegate:_delegate
                                                    delegateQueue:secondarySessionDelegateQueue];
@@ -56,9 +62,12 @@
     NSURLSessionConfiguration *longpollSessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
     longpollSessionConfig.timeoutIntervalForRequest = 480.0;
 
-    NSOperationQueue *longpollSessionDelegateQueue = [self urlSessionDelegateQueueWithName:[NSString stringWithFormat:@"%@ Longpoll NSURLSession delegate queue", NSStringFromClass(self.class)]];
-    _longpollSession =
-        [NSURLSession sessionWithConfiguration:longpollSessionConfig delegate:_delegate delegateQueue:longpollSessionDelegateQueue];
+    NSOperationQueue *longpollSessionDelegateQueue =
+        [self urlSessionDelegateQueueWithName:[NSString stringWithFormat:@"%@ Longpoll NSURLSession delegate queue",
+                                                                         NSStringFromClass(self.class)]];
+    _longpollSession = [NSURLSession sessionWithConfiguration:longpollSessionConfig
+                                                     delegate:_delegate
+                                                delegateQueue:longpollSessionDelegateQueue];
   }
   return self;
 }
@@ -67,7 +76,9 @@
 
 - (NSOperationQueue *)urlSessionDelegateQueueWithName:(NSString *)queueName {
   NSOperationQueue *sessionDelegateQueue = [[NSOperationQueue alloc] init];
-  sessionDelegateQueue.maxConcurrentOperationCount = 1; // [Michael Fey, 2017-05-16] From the NSURLSession documentation: "The queue should be a serial queue, in order to ensure the correct ordering of callbacks."
+  sessionDelegateQueue.maxConcurrentOperationCount = 1; // [Michael Fey, 2017-05-16] From the NSURLSession
+                                                        // documentation: "The queue should be a serial queue, in order
+                                                        // to ensure the correct ordering of callbacks."
   sessionDelegateQueue.name = queueName;
   sessionDelegateQueue.qualityOfService = NSQualityOfServiceUtility;
   return sessionDelegateQueue;
@@ -76,10 +87,9 @@
 #pragma mark - RPC-style request
 
 - (DBRpcTaskImpl *)requestRpc:(DBRoute *)route arg:(id<DBSerializable>)arg {
-  NSURL *requestUrl = [[self class] urlWithRoute:route];
+  NSURL *requestUrl = [self urlWithRoute:route];
   NSString *serializedArg = [[self class] serializeStringWithRoute:route routeArg:arg];
-  NSDictionary *headers =
-      [self headersWithRouteInfo:route.attrs accessToken:self.accessToken serializedArg:serializedArg];
+  NSDictionary *headers = [self headersWithRouteInfo:route.attrs serializedArg:serializedArg];
 
   // RPC request submits argument in request body
   NSData *serializedArgData = [[self class] serializeDataWithRoute:route routeArg:arg];
@@ -89,7 +99,7 @@
   NSURLSession *sessionToUse = _session;
 
   // longpoll requests have a much longer timeout period than other requests
-  if ([route class] == [DBFILESRouteObjects.DBFILESListFolderLongpoll class]) {
+  if (route.host == DBRouteHostNotify) {
     sessionToUse = _longpollSession;
   }
 
@@ -108,10 +118,9 @@
 
 - (DBUploadTaskImpl *)requestUpload:(DBRoute *)route arg:(id<DBSerializable>)arg inputUrl:(NSString *)input {
   NSURL *inputUrl = [NSURL fileURLWithPath:input];
-  NSURL *requestUrl = [[self class] urlWithRoute:route];
+  NSURL *requestUrl = [self urlWithRoute:route];
   NSString *serializedArg = [[self class] serializeStringWithRoute:route routeArg:arg];
-  NSDictionary *headers =
-      [self headersWithRouteInfo:route.attrs accessToken:self.accessToken serializedArg:serializedArg];
+  NSDictionary *headers = [self headersWithRouteInfo:route.attrs serializedArg:serializedArg];
 
   NSURLRequest *request = [[self class] requestWithHeaders:headers url:requestUrl content:nil stream:nil];
 
@@ -131,10 +140,9 @@
 #pragma mark - Upload-style request (NSData)
 
 - (DBUploadTaskImpl *)requestUpload:(DBRoute *)route arg:(id<DBSerializable>)arg inputData:(NSData *)input {
-  NSURL *requestUrl = [[self class] urlWithRoute:route];
+  NSURL *requestUrl = [self urlWithRoute:route];
   NSString *serializedArg = [[self class] serializeStringWithRoute:route routeArg:arg];
-  NSDictionary *headers =
-      [self headersWithRouteInfo:route.attrs accessToken:self.accessToken serializedArg:serializedArg];
+  NSDictionary *headers = [self headersWithRouteInfo:route.attrs serializedArg:serializedArg];
 
   NSURLRequest *request = [[self class] requestWithHeaders:headers url:requestUrl content:nil stream:nil];
 
@@ -154,10 +162,9 @@
 #pragma mark - Upload-style request (NSInputStream)
 
 - (DBUploadTaskImpl *)requestUpload:(DBRoute *)route arg:(id<DBSerializable>)arg inputStream:(NSInputStream *)input {
-  NSURL *requestUrl = [[self class] urlWithRoute:route];
+  NSURL *requestUrl = [self urlWithRoute:route];
   NSString *serializedArg = [[self class] serializeStringWithRoute:route routeArg:arg];
-  NSDictionary *headers =
-      [self headersWithRouteInfo:route.attrs accessToken:self.accessToken serializedArg:serializedArg];
+  NSDictionary *headers = [self headersWithRouteInfo:route.attrs serializedArg:serializedArg];
 
   NSURLRequest *request = [[self class] requestWithHeaders:headers url:requestUrl content:nil stream:input];
 
@@ -194,10 +201,9 @@
                            destination:(NSURL *)destination
                        byteOffsetStart:(NSNumber *)byteOffsetStart
                          byteOffsetEnd:(NSNumber *)byteOffsetEnd {
-  NSURL *requestUrl = [[self class] urlWithRoute:route];
+  NSURL *requestUrl = [self urlWithRoute:route];
   NSString *serializedArg = [[self class] serializeStringWithRoute:route routeArg:arg];
   NSDictionary *headers = [self headersWithRouteInfo:route.attrs
-                                         accessToken:self.accessToken
                                        serializedArg:serializedArg
                                      byteOffsetStart:byteOffsetStart
                                        byteOffsetEnd:byteOffsetEnd];
@@ -227,10 +233,9 @@
                                     arg:(id<DBSerializable>)arg
                         byteOffsetStart:(NSNumber *)byteOffsetStart
                           byteOffsetEnd:(NSNumber *)byteOffsetEnd {
-  NSURL *requestUrl = [[self class] urlWithRoute:route];
+  NSURL *requestUrl = [self urlWithRoute:route];
   NSString *serializedArg = [[self class] serializeStringWithRoute:route routeArg:arg];
   NSDictionary *headers = [self headersWithRouteInfo:route.attrs
-                                         accessToken:self.accessToken
                                        serializedArg:serializedArg
                                      byteOffsetStart:byteOffsetStart
                                        byteOffsetEnd:byteOffsetEnd];
@@ -255,6 +260,20 @@
                                                asMemberId:asMemberId
                                             delegateQueue:_delegateQueue
                                    forceForegroundSession:_forceForegroundSession];
+}
+
+- (DBTransportDefaultConfig *)duplicateTransportConfigWithPathRoot:(DBCOMMONPathRoot *)pathRoot {
+  return [[DBTransportDefaultConfig alloc] initWithAppKey:self.appKey
+                                                appSecret:self.appSecret
+                                           hostnameConfig:nil
+                                              redirectURL:nil
+                                                userAgent:self.userAgent
+                                               asMemberId:self.asMemberId
+                                                 pathRoot:pathRoot
+                                        additionalHeaders:nil
+                                            delegateQueue:_delegateQueue
+                                   forceForegroundSession:_forceForegroundSession
+                                sharedContainerIdentifier:nil];
 }
 
 #pragma mark - Session accessors and mutators

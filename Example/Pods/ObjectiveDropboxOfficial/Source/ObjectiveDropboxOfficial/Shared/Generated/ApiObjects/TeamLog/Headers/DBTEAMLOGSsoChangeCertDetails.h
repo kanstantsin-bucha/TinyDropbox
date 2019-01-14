@@ -8,6 +8,7 @@
 
 #import "DBSerializableProtocol.h"
 
+@class DBTEAMLOGCertificate;
 @class DBTEAMLOGSsoChangeCertDetails;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -17,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `SsoChangeCertDetails` struct.
 ///
-/// Changed the X.509 certificate for SSO.
+/// Changed X.509 certificate for SSO.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -27,49 +28,36 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Instance fields
 
-/// Certificate subject.
-@property (nonatomic, readonly, copy) NSString *subject;
+/// Previous SSO certificate details. Might be missing due to historical data
+/// gap.
+@property (nonatomic, readonly, nullable) DBTEAMLOGCertificate *previousCertificateDetails;
 
-/// Certificate issuer.
-@property (nonatomic, readonly, copy) NSString *issuer;
-
-/// Certificate issue date.
-@property (nonatomic, readonly, copy) NSString *issueDate;
-
-/// Certificate expiration date.
-@property (nonatomic, readonly, copy) NSString *expirationDate;
-
-/// Certificate serial number.
-@property (nonatomic, readonly, copy) NSString *serialNumber;
-
-/// Certificate sha1 fingerprint.
-@property (nonatomic, readonly, copy) NSString *sha1Fingerprint;
-
-/// Certificate common name.
-@property (nonatomic, readonly, copy) NSString *commonName;
+/// New SSO certificate details.
+@property (nonatomic, readonly) DBTEAMLOGCertificate *dNewCertificateDetails;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param subject Certificate subject.
-/// @param issuer Certificate issuer.
-/// @param issueDate Certificate issue date.
-/// @param expirationDate Certificate expiration date.
-/// @param serialNumber Certificate serial number.
-/// @param sha1Fingerprint Certificate sha1 fingerprint.
-/// @param commonName Certificate common name.
+/// @param dNewCertificateDetails New SSO certificate details.
+/// @param previousCertificateDetails Previous SSO certificate details. Might be
+/// missing due to historical data gap.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithSubject:(NSString *)subject
-                         issuer:(NSString *)issuer
-                      issueDate:(NSString *)issueDate
-                 expirationDate:(NSString *)expirationDate
-                   serialNumber:(NSString *)serialNumber
-                sha1Fingerprint:(NSString *)sha1Fingerprint
-                     commonName:(NSString *)commonName;
+- (instancetype)initWithDNewCertificateDetails:(DBTEAMLOGCertificate *)dNewCertificateDetails
+                    previousCertificateDetails:(nullable DBTEAMLOGCertificate *)previousCertificateDetails;
+
+///
+/// Convenience constructor (exposes only non-nullable instance variables with
+/// no default value).
+///
+/// @param dNewCertificateDetails New SSO certificate details.
+///
+/// @return An initialized instance.
+///
+- (instancetype)initWithDNewCertificateDetails:(DBTEAMLOGCertificate *)dNewCertificateDetails;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -91,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGSsoChangeCertDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGSsoChangeCertDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGSsoChangeCertDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGSsoChangeCertDetails` instances.
@@ -101,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An instantiation of the `DBTEAMLOGSsoChangeCertDetails` object.
 ///
-+ (DBTEAMLOGSsoChangeCertDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGSsoChangeCertDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

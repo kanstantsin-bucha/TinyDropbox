@@ -1,37 +1,52 @@
 PODS:
-  - BuchaSwift (1.0.1)
+  - BuchaSwift (1.1.0)
   - CDBDelegateCollection (1.1.1)
-  - CDBKit (1.1.1)
-  - ObjectiveDropboxOfficial (3.1.1)
-  - TBDropboxKit (1.1.4):
-    - CDBDelegateCollection (~> 1.1)
-    - CDBKit (~> 1.1)
-    - ObjectiveDropboxOfficial (~> 3.1)
-    - TBLogger (~> 1.1)
+  - CDBKit (1.4.6):
+    - CDBKit/Array (= 1.4.6)
+    - CDBKit/Core (= 1.4.6)
+    - CDBKit/Localize (= 1.4.6)
+    - CDBKit/UI (= 1.4.6)
+  - CDBKit/Array (1.4.6)
+  - CDBKit/Core (1.4.6)
+  - CDBKit/Localize (1.4.6)
+  - CDBKit/UI (1.4.6)
+  - ObjectiveDropboxOfficial (3.9.4)
+  - TBDropboxKit (1.2.3):
+    - CDBDelegateCollection
+    - CDBKit
+    - ObjectiveDropboxOfficial (= 3.9.4)
+    - TBLogger
   - TBLogger (1.1.2):
     - CDBKit (~> 1.1)
-  - TinyDropbox (1.0.0):
-    - BuchaSwift (~> 1.0)
-    - TBDropboxKit (~> 1.1)
+  - TinyDropbox (1.1.0):
+    - BuchaSwift (= 1.1.0)
+    - TBDropboxKit (= 1.2.3)
 
 DEPENDENCIES:
-  - BuchaSwift
-  - TBDropboxKit
   - TinyDropbox (from `../`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - BuchaSwift
+    - CDBDelegateCollection
+    - CDBKit
+    - ObjectiveDropboxOfficial
+    - TBDropboxKit
+    - TBLogger
 
 EXTERNAL SOURCES:
   TinyDropbox:
-    :path: ../
+    :path: "../"
 
 SPEC CHECKSUMS:
-  BuchaSwift: 2e5b7e0289861899979c7d5cafadb2634a7402fb
+  BuchaSwift: 8c74504b4483325ecc3759716d06fb68ea143982
   CDBDelegateCollection: d3dc7666965f701bc54ed7eae591de2328a8c706
-  CDBKit: eb073c45d4bffbbad99dc9f2a79effbdab890ea7
-  ObjectiveDropboxOfficial: 9261ed5b067f686910cdca93c5a8d1bc9db08adc
-  TBDropboxKit: 51edd3a4afe4cfff76089edab5b832b2391bc609
+  CDBKit: d24cdc2039baaf27e1eabe9b024997a3fd8bc1fe
+  ObjectiveDropboxOfficial: a5afefc83f6467c42c45f2253f583f2ad1ffc701
+  TBDropboxKit: 338dc6093b9668d6d89d58df3acec8dda6f777f8
   TBLogger: 228c8ce0f8e6acdea7e85544f1567ead2af98411
-  TinyDropbox: b584e2b6772042a1853826600cdefa8ec55781cc
+  TinyDropbox: a9b213f4a1fb99007fc41346779ccbac66a4e230
 
-PODFILE CHECKSUM: 49fc0d9ce251026f6f874f16cff8d1ef9a425a8d
+PODFILE CHECKSUM: 1f5fcb21391850b0d09870b5dbe8a8664eb8d6ca
 
-COCOAPODS: 1.2.1
+COCOAPODS: 1.6.0.beta.1

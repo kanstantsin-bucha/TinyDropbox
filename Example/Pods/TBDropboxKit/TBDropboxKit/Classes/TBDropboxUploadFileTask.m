@@ -59,6 +59,8 @@
                               autorename: @(NO)
                           clientModified: [NSDate date]
                                     mute: @(NO)
+                          propertyGroups: nil
+                          strictConflict: @(NO)
                                 inputUrl: filePath];
     weakCDB(wself);
     [(DBUploadTask *)self.dropboxTask setResponseBlock:^(DBFILESFileMetadata * response,

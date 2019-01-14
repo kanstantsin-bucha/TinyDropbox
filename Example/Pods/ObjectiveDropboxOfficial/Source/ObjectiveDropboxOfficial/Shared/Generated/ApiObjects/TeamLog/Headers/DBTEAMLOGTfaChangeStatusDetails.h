@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `TfaChangeStatusDetails` struct.
 ///
-/// Enabled, disabled or changed the configuration for two-step verification.
+/// Enabled/disabled/changed two-step verification setting.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -35,7 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// to historical data gap.
 @property (nonatomic, readonly, nullable) DBTEAMLOGTfaConfiguration *previousValue;
 
-/// Used two factor authentication code.
+/// Used two factor authentication rescue code. This flag is relevant when the
+/// two factor authentication configuration is disabled.
 @property (nonatomic, readonly, nullable) NSNumber *usedRescueCode;
 
 #pragma mark - Constructors
@@ -46,7 +47,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param dNewValue The new two factor authentication configuration.
 /// @param previousValue The previous two factor authentication configuration.
 /// Might be missing due to historical data gap.
-/// @param usedRescueCode Used two factor authentication code.
+/// @param usedRescueCode Used two factor authentication rescue code. This flag
+/// is relevant when the two factor authentication configuration is disabled.
 ///
 /// @return An initialized instance.
 ///
@@ -84,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGTfaChangeStatusDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGTfaChangeStatusDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGTfaChangeStatusDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGTfaChangeStatusDetails` instances.
@@ -94,7 +96,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An instantiation of the `DBTEAMLOGTfaChangeStatusDetails` object.
 ///
-+ (DBTEAMLOGTfaChangeStatusDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGTfaChangeStatusDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

@@ -60,13 +60,18 @@
     _connectionDesired = connectionDesired;
     [self.logger info: @"Connection desired changed to %@",
                           connectionDesired ? @"YES" : @"NO"];
+    
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (_connectionDesired) {
+        
+        if (self.connectionDesired) {
+            
             [self.logger warning: @"open connection"];
             
             [self.connection openConnection];
+            
         } else {
-            [self.logger warning: @"pause connection"];
+            
+            [self.logger warning: @"close connection"];
             [self.connection closeConnection];
             
             [self nullifyQueueAndWatchdog];

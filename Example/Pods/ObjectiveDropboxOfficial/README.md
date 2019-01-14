@@ -4,6 +4,8 @@ The Official Dropbox Objective-C SDK for integrating with Dropbox [API v2](https
 
 Full documentation [here](http://dropbox.github.io/dropbox-sdk-obj-c/api-docs/latest/).
 
+NOTE: Please do not rely on `master` in production. Please instead use one of our tagged [release commits](https://github.com/dropbox/dropbox-sdk-obj-c/releases) (preferrably fetched via CocoaPods or Carthage), as these commits have been more thoroughly tested.
+
 ---
 
 ## Table of Contents
@@ -56,7 +58,7 @@ Full documentation [here](http://dropbox.github.io/dropbox-sdk-obj-c/api-docs/la
 
 - iOS 9.0+
 - macOS 10.10+
-- Xcode 7.3+
+- Xcode 8+
 
 ---
 
@@ -88,7 +90,7 @@ All requests need to be made with an OAuth 2.0 access token. An OAuth token repr
 a Dropbox user account or team.
 
 Once you've created an app, you can go to the App Console and manually generate an access token to authorize your app to access your own Dropbox account.
-Otherwise, you can obtain an OAuth token programmatically using the SDK's pre-defined auth flow. For more information, [see below](https://github.com/dropbox/dropbox-sdk-obj-c#handling-authorization-flow).
+Otherwise, you can obtain an OAuth token programmatically using the SDK's pre-defined auth flow. For more information, [see below](https://github.com/dropbox/dropbox-sdk-obj-c#handling-the-authorization-flow).
 
 ---
 
@@ -165,7 +167,7 @@ brew install carthage
 
 ```
 # ObjectiveDropboxOfficial
-github "https://github.com/dropbox/dropbox-sdk-obj-c" ~> 3.1.1
+github "https://github.com/dropbox/dropbox-sdk-obj-c" ~> 3.9.4
 ```
 
 Then, run the following command to checkout and build the Dropbox Objective-C SDK repository:
@@ -336,6 +338,9 @@ To facilitate the above authorization flows, you should take the following steps
 You can commence the auth flow by calling `authorizeFromController:controller:openURL` method in your application's
 view controller.
 
+Please ensure that the supplied view controller is the top-most controller, so that the authorization view displays correctly. 
+
+
 ##### iOS
 
 ```objective-c
@@ -343,10 +348,21 @@ view controller.
 
 - (void)myButtonInControllerPressed {
   [DBClientsManager authorizeFromController:[UIApplication sharedApplication]
-                                 controller:self
+                                 controller:[[self class] topMostController]
                                     openURL:^(NSURL *url) {
                                       [[UIApplication sharedApplication] openURL:url];
                                     }];
+}
+
++ (UIViewController*)topMostController
+{
+    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
+
+    while (topController.presentedViewController) {
+        topController = topController.presentedViewController;
+    }
+
+    return topController;
 }
 
 ```
@@ -437,7 +453,7 @@ After the end user signs in with their Dropbox login credentials on mobile, they
 </p>
 
 If they press **Allow** or **Cancel**, the `db-<APP_KEY>` redirect URL will be launched from the view controller, and will be handled in your application
-delegate's `application:handleOpenURL` method, from which the result of the authorization can be parsed.
+delegate's `application:openURL:options:` method, from which the result of the authorization can be parsed.
 
 Now you're ready to begin making API requests!
 
@@ -585,6 +601,7 @@ DBFILESWriteMode *mode = [[DBFILESWriteMode alloc] initWithOverwrite];
                       autorename:@(YES)
                   clientModified:nil
                             mute:@(NO)
+                  propertyGroups:nil
                        inputData:fileData]
     setResponseBlock:^(DBFILESFileMetadata *result, DBFILESUploadError *routeError, DBRequestError *networkError) {
       if (result) {
@@ -1067,6 +1084,20 @@ If you're interested in modifying the SDK codebase, you should take the followin
 * navigate to `TestObjectiveDropbox` and run `pod install`
 * open `TestObjectiveDropbox/TestObjectiveDropbox.xcworkspace` in Xcode
 * implement your changes to the SDK source code.
+
+To ensure your changes have not broken any existing functionality, you can run a series of integration tests by
+following the instructions listed in the `ViewController.m` file.
+
+---
+
+## Code generation
+
+If you're interested in manually generating the SDK serialization logic, perform the following:
+
+* clone this GitHub repository to your local filesystem
+* run `git submodule init` and then `git submodule update`
+* navigate to the [Stone GitHub repo](https://github.com/dropbox/stone), and install all necessary dependencies
+* run `./generate_base_client.py` to generate code
 
 To ensure your changes have not broken any existing functionality, you can run a series of integration tests by
 following the instructions listed in the `ViewController.m` file.

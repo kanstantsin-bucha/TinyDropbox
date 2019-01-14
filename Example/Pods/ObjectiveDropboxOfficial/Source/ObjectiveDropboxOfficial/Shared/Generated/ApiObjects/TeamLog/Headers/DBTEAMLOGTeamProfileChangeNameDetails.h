@@ -8,6 +8,7 @@
 
 #import "DBSerializableProtocol.h"
 
+@class DBTEAMLOGTeamName;
 @class DBTEAMLOGTeamProfileChangeNameDetails;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -17,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `TeamProfileChangeNameDetails` struct.
 ///
-/// Changed the team name.
+/// Changed team name.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -27,23 +28,35 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Instance fields
 
-/// Team's display name.
-@property (nonatomic, readonly, copy) NSString *teamDisplayName;
+/// Previous teams name. Might be missing due to historical data gap.
+@property (nonatomic, readonly, nullable) DBTEAMLOGTeamName *previousValue;
 
-/// Team's legal name.
-@property (nonatomic, readonly, copy) NSString *teamLegalName;
+/// New team name.
+@property (nonatomic, readonly) DBTEAMLOGTeamName *dNewValue;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param teamDisplayName Team's display name.
-/// @param teamLegalName Team's legal name.
+/// @param dNewValue New team name.
+/// @param previousValue Previous teams name. Might be missing due to historical
+/// data gap.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithTeamDisplayName:(NSString *)teamDisplayName teamLegalName:(NSString *)teamLegalName;
+- (instancetype)initWithDNewValue:(DBTEAMLOGTeamName *)dNewValue
+                    previousValue:(nullable DBTEAMLOGTeamName *)previousValue;
+
+///
+/// Convenience constructor (exposes only non-nullable instance variables with
+/// no default value).
+///
+/// @param dNewValue New team name.
+///
+/// @return An initialized instance.
+///
+- (instancetype)initWithDNewValue:(DBTEAMLOGTeamName *)dNewValue;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -65,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGTeamProfileChangeNameDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGTeamProfileChangeNameDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGTeamProfileChangeNameDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGTeamProfileChangeNameDetails` instances.
@@ -76,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the `DBTEAMLOGTeamProfileChangeNameDetails`
 /// object.
 ///
-+ (DBTEAMLOGTeamProfileChangeNameDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGTeamProfileChangeNameDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

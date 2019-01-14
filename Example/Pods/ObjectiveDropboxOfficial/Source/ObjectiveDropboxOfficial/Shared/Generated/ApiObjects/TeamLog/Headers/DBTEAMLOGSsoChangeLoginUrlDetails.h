@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `SsoChangeLoginUrlDetails` struct.
 ///
-/// Changed the sign-in URL for SSO.
+/// Changed sign-in URL for SSO.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -27,23 +27,23 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Instance fields
 
-/// Previous SSO Url.
-@property (nonatomic, readonly, copy) NSString *previousSsoUrl;
+/// Previous single sign-on login URL.
+@property (nonatomic, readonly, copy) NSString *previousValue;
 
-/// New SSO Url.
-@property (nonatomic, readonly, copy) NSString *dNewSsoUrl;
+/// New single sign-on login URL.
+@property (nonatomic, readonly, copy) NSString *dNewValue;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param previousSsoUrl Previous SSO Url.
-/// @param dNewSsoUrl New SSO Url.
+/// @param previousValue Previous single sign-on login URL.
+/// @param dNewValue New single sign-on login URL.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithPreviousSsoUrl:(NSString *)previousSsoUrl dNewSsoUrl:(NSString *)dNewSsoUrl;
+- (instancetype)initWithPreviousValue:(NSString *)previousValue dNewValue:(NSString *)dNewValue;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -65,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGSsoChangeLoginUrlDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGSsoChangeLoginUrlDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGSsoChangeLoginUrlDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGSsoChangeLoginUrlDetails` instances.
@@ -75,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An instantiation of the `DBTEAMLOGSsoChangeLoginUrlDetails` object.
 ///
-+ (DBTEAMLOGSsoChangeLoginUrlDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGSsoChangeLoginUrlDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 
