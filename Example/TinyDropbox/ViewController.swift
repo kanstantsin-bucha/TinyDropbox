@@ -33,7 +33,7 @@ class ListDropboxViewController: UIViewController {
     
 // MARK: - events -
 
-    @objc func dropboxDidChangeState (notification: Notification) {
+    func dropboxDidChangeState (notification: Notification) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let state = notification.userInfo?[appDelegate.dropboxStateNotificationKey];
         

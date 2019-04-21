@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TinyDropbox'
-  s.version          = '1.1.0'
+  s.version          = '1.1.1'
   s.summary          = 'Easy to use dropbox sync for swift coders [wrapper on TBDropboxKit]'
 
 # This description is used to generate tags and improve search results.
@@ -30,6 +30,7 @@ Pod::Spec.new do |s|
   s.social_media_url = 'https://twitter.com/truebucha'
 
   s.ios.deployment_target = '10.0'
+  s.module_name = 'TinyDropbox'
   s.swift_version = '4.2'
 
   s.source_files = 'TinyDropbox/Classes/**/*.{swift}'
@@ -38,5 +39,5 @@ Pod::Spec.new do |s|
   # s.public_header_files = 'Pod/Classes/**/*.h'
   s.frameworks = 'Foundation'
   s.dependency 'TBDropboxKit', '= 1.2.3'
-  s.dependency 'BuchaSwift', '= 1.1.0'
+  s.dependency 'BuchaSwift', '~> 1.1.1'
 end
