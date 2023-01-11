@@ -1,3 +1,5 @@
+It was archived. Please write to me at kanstantsin.bucha@icloud.com in case any issues occur.
+
 # TinyDropbox
 
 [![CI Status](http://img.shields.io/travis/truebucha/TinyDropbox.svg?style=flat)](https://travis-ci.org/truebucha/TinyDropbox)
